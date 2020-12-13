@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 from distutils.extension import Extension
+from numpy import f2py
 
 import numpy as np
+
 # setuptools DWIM monkey-patch madness
 # http://mail.python.org/pipermail/distutils-sig/2007-September/thread.html#8204
 import sys
@@ -31,9 +33,6 @@ qc_extension_sources = ["ion_functions/qc/qc_extensions.pyx",
 qc_extension = Extension("ion_functions.qc.qc_extensions", qc_extension_sources,
                          include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
-igrf_extension_sources = ["extensions/igrf13.f"]
-igrf_extension = Extension("ion_functions.data.igrf13", igrf_extension_sources)
-
 wmm_extension_sources = ["ion_functions/data/wmm.pyx",
                          "extensions/GeomagnetismLibrary.c",
                          "extensions/wmm.c", ]
@@ -41,8 +40,7 @@ wmm_extension_sources = ["ion_functions/data/wmm.pyx",
 wmm_extension = Extension("ion_functions.data.wmm", wmm_extension_sources,
                           include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
-polycals_sources = ["ion_functions/data/polycals.pyx",
-                    "extensions/polycals.c"]
+polycals_sources = ["ion_functions/data/polycals.pyx", "extensions/polycals.c"]
 polycals_extension = Extension("ion_functions.data.polycals", polycals_sources,
                                include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
@@ -57,7 +55,7 @@ setup(name='ion-functions',
       classifiers=classifiers.split('\n'),
       packages=packages,
       keywords=['oceanography', 'seawater'],
-      ext_modules=[qc_extension, wmm_extension, igrf_extension, polycals_extension],
+      ext_modules=[qc_extension, wmm_extension, polycals_extension],
       setup_requires=['setuptools_cython'],
       install_requires=[
         'cython',
@@ -65,3 +63,11 @@ setup(name='ion-functions',
       ],
       include_package_data=True,
       )
+
+# Add the IGRF-13 module
+with open("extensions/igrf13.f") as f:
+    igrf_source = f.read()
+
+igrf_module = "ion_functions.data.igrf13"
+igrf_args = ["ion_functions/data/igrf13.pyf"]
+f2py.compile(igrf_source, extra_args=igrf_args, modulename=igrf_module)
