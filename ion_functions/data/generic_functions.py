@@ -17,6 +17,7 @@ from numbers import Integral
 
 # ION Functions imports
 from ion_functions.data.wmm import WMM
+from ion_functions.data.igrf13 import igrf13syn
 
 # CyberInfrastructure fill value for all integer data types
 SYSTEM_FILLVALUE = -999999999
@@ -124,6 +125,127 @@ def magnetic_declination(lat, lon, ntp_timestamp, z=0.0, zflag=-1):
     """
     Description:
 
+        Wrapper function, vectorizing inputs to igrf_declination. Provides the
+        magnetic declination for a platform given its location (latitude and
+        longitude), the date (from the ntp_timestamp), the depth or height of
+        the instrument in meters (z), and a flag value (zflag) to indicate
+        whether the instrument is underwater (zflag = -1) or above water (zflag
+        = 1).
+
+    Usage:
+
+        mag_dec = magnetic_declination(lat,lon,ntp_timestamp,z,zflag)
+
+            where
+
+        mag_dec = magnetic declination/variation value [degrees from N].
+            Positive values are eastward, negative westward of North.
+        lat = latitude of the instrument [decimal degrees].  East is
+            positive, West negative.
+        lon = longitude of the instrument [decimal degrees]. North
+            is positive, South negative.
+        ntp_timestamp = NTP time stamp from a data particle
+            [secs since 1900-01-01].
+        z = depth or height of instrument relative to sealevel [meters].
+            Positive values only. Default value is 0.
+        zflag = indicates whether to use z as a depth or height relative
+            to sealevel. -1=depth (i.e. -z) and 1=height (i.e. +z). -1
+            is the default
+
+    Implemented by:
+
+        2014-02-02: Christopher Wingard. Initial Code.
+        2020-12-12: Christopher Wingard. Changed to use the IGRF-13
+            Geomagnetic model
+    """
+    # vectorize igrf_declination and compute the magnetic declination
+    decln = np.vectorize(igrf_declination)
+    mag_dec = decln(ntp_timestamp, lat, lon, z, zflag)
+    return mag_dec
+
+
+def igrf_declination(ntp_timestamp, lat, lon, z, zflag=-1):
+    """
+    Description:
+
+        Magnetic declination (a.k.a. magnetic variation) as a function
+        of location and date from the International Geomagnetic Reference
+        Field, 13th Generation (IGRF-13).
+
+        The magnetic declination correction is used to correct velocity vectors
+        in several OOI data product transformations.
+
+    Implemented by:
+
+        2020-12-12: Christopher Wingard. Initial Code
+
+    Usage:
+
+        mag_dec = igrf_declination(ntp_timestamp, lat, lon, z, zflag)
+
+            where
+
+        mag_dec = magnetic declination/variation value [degrees from N].
+            Positive values are eastward, negative westward of North.
+        ntp_timestamp = NTP time stamp from a data particle
+            [secs since 1900-01-01].
+        lat = latitude of the instrument [decimal degrees].  East is
+            positive, West negative.
+        lon = longitude of the instrument [decimal degrees]. North
+            is positive, South negative.
+        z = depth or height of instrument relative to sealevel [meters].
+            Positive values only. Default value is 0.
+        zflag = indicates whether to use z as a depth or height relative
+            to sea level. -1=depth (i.e. -z) and 1=height (i.e. +z). -1
+            is the default
+
+    Example:
+
+        lat = 45.0 # Location is deep water off of Oregon coast
+        lon = -128
+        z = -1000
+        ntp_timestamp = 3574792037.958   # 2013-04-12 14:47:17
+
+        igrf_declination(ntp_timestamp, lat, lon, z, -1)
+        >> 16.457675796581885
+
+    References:
+
+        https://www.ngdc.noaa.gov/IAGA/vmod/igrf.html
+    """
+    # convert the ntp timestamp to a unix timestamp and then a datetime object
+    unix_timestamp = ntp_timestamp - 2208988800.
+    dates = datetime.datetime.utcfromtimestamp(unix_timestamp).date()
+
+    # calculate a decimal year
+    start = datetime.date(dates.year, 1, 1).toordinal()
+    year_length = datetime.date(dates.year + 1, 1, 1).toordinal() - start
+    year = dates.year + float(dates.toordinal() - start) / year_length
+
+    # set the depth to negative for below sea level (if needed) and convert
+    # from meters to kilometers.
+    z = z / 1000.  # m -> km
+    if z > 0 & zflag == -1:   # check that depth is a positive number first
+        z = zflag * z    # convert z to indicate depth
+
+    # convert the longitude and latitude to east-longitude (0-360) and
+    # colatitude (0-180)
+    elong = lon % 360.
+    colat = 90. - lat
+
+    # calculate the geomagnetic field
+    xyzf = igrf13syn(0, year, 1, z, colat, elong)
+
+    # calculate the declination
+    fact = 180.0 / 3.141592654
+    declination = fact * np.arctan2(xyzf[1], xyzf[0])
+    return declination
+
+
+def magnetic_declination_wmm(lat, lon, ntp_timestamp, z=0.0, zflag=-1):
+    """
+    Description:
+
         Wrapper function, vectorizing inputs to wmm_declination. Provides the
         magnetic declination for a platform given its location (latitude and
         longitude), the date (from the ntp_timestamp), the depth or height of
@@ -154,8 +276,10 @@ def magnetic_declination(lat, lon, ntp_timestamp, z=0.0, zflag=-1):
     Implemented by:
 
         2014-02-02: Christopher Wingard. Initial Code.
+        2020-12-12: Christopher Wingard. Renamed to magnetic_declination_wmm
+            in order to reset the magnetic declination function to use the
+            IGRF-13 model.
     """
-
     # CSF move WMM instantiation outside of the vectorize call, to prevent
     # repeated build/teardown during the vectorize.  Need to then pass it as
     # an arg

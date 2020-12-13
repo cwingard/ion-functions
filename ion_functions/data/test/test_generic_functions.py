@@ -410,7 +410,32 @@ class TestGenericFunctionsUnit(BaseUnitTestCase):
 
     def test_magnetic_declination(self):
         """
-        Test magnetic_declination function.
+        Test magnetic_declination function based on IGRF-13.
+
+        Test data created using the NOAA online magnetic declination calculator,
+        with IGRF as the model. Data available through the API as JSON.
+
+        https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml#declination
+
+        Implemented by Christopher Wingard, 2020-12-12
+        """
+        lat = np.array([45.0, 45.0, 45.0, 45.0, 0.0, 0.0, 0.0, 0.0, -45.0, -45.0, -45.0, -45.0])
+        lon = np.array([0.0, 100.0, -160.0, -60.0, 0.0, 100.0, -160.0, -60.0, 0.0, 100.0, -160.0, -60.0])
+        timestamp = np.array([3534364800, 3534364800, 3534364800, 3534364800,
+                              3692217600, 3692217600, 3692217600, 3692217600,
+                              3881520000, 3881520000, 3881520000, 3881520000])
+
+        decln = np.array([-0.6925, -1.21772, 12.16938, -18.64589,
+                          -5.12503, -0.19982,  9.22336, -15.69525,
+                          -21.64104, -30.6666, 26.81542, -1.07134])
+
+        out = gfunc.magnetic_declination(lat, lon, timestamp, 0.0, -1)
+
+        self.assertTrue(np.allclose(out, decln, rtol=0, atol=1e-4))
+
+    def test_magnetic_declination_wmm(self):
+        """
+        Test magnetic_declination function using older WWM method.
 
         Some values based on those defined in the WMM document,
         WMM2010testvalues.pdf which accompanies the software.  Others
@@ -436,7 +461,7 @@ class TestGenericFunctionsUnit(BaseUnitTestCase):
         decln = np.array([16.46093044096720, 16.46376239313584, -6.13, 0.97,
                           70.21, -6.57, 0.94, 69.62])
 
-        out = gfunc.magnetic_declination(lat, lon, timestamp, z, -1)
+        out = gfunc.magnetic_declination_wmm(lat, lon, timestamp, z, -1)
 
         self.assertTrue(np.allclose(out, decln, rtol=0, atol=1e-2))
 

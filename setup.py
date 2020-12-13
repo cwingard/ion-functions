@@ -31,6 +31,9 @@ qc_extension_sources = ["ion_functions/qc/qc_extensions.pyx",
 qc_extension = Extension("ion_functions.qc.qc_extensions", qc_extension_sources,
                          include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
+igrf_extension_sources = ["extensions/igrf13.f"]
+igrf_extension = Extension("ion_functions.data.igrf13", igrf_extension_sources)
+
 wmm_extension_sources = ["ion_functions/data/wmm.pyx",
                          "extensions/GeomagnetismLibrary.c",
                          "extensions/wmm.c", ]
@@ -44,17 +47,17 @@ polycals_extension = Extension("ion_functions.data.polycals", polycals_sources,
                                include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
 setup(name='ion-functions',
-      version='2.4.6',
+      version='2.4.7',
       description='Python Function collection for ION',
       long_description=open('README.md').read(),
       license='LICENSE.txt',
       author='Luke Campbell',
       author_email='lcampbell@asascience.com',
-      url='https://github.com/ooici/ion-functions/',
+      url='https://github.com/oceanobservatories/ion-functions/',
       classifiers=classifiers.split('\n'),
       packages=packages,
       keywords=['oceanography', 'seawater'],
-      ext_modules=[qc_extension, wmm_extension, polycals_extension],
+      ext_modules=[qc_extension, wmm_extension, igrf_extension, polycals_extension],
       setup_requires=['setuptools_cython'],
       install_requires=[
         'cython',
