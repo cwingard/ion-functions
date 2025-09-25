@@ -363,8 +363,8 @@ def pco2_calc_pco2(light, therm, ea434, eb434, ea620, eb620,
     V1 = Ratio - e1
     V2 = e2 - e3 * Ratio
     RCO21 = -1 * np.log10(V1 / V2)
-    RCO22 = (therm - calt) * 0.008 + RCO21
-    Tcoeff = 0.0075778 - 0.0012389 * RCO22 - 0.00048757 * RCO22**2
+    RCO22 = (therm - calt) * 0.007 + RCO21
+    Tcoeff = 0.0075778 + 0.0012389 * RCO22 - 0.00048757 * RCO22**2
     Tcor_RCO2 = RCO21 + Tcoeff * (therm - calt)
     pco2 = 10.**((-1. * calb + (calb**2 - (4. * cala * (calc - Tcor_RCO2)))**0.5) / (2. * cala))
     pco2[m] = fill_value  # reset the blanks captured earlier to a fill value
