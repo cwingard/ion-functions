@@ -1,4 +1,4 @@
-# Release 2.5.5 2026-01-28
+# Release 2.5.6 2026-01-28
 
 Issue #16079 - New IonFunctions for phsen_h
 
