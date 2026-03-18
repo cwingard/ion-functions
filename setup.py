@@ -55,7 +55,6 @@ setup(name='ion-functions',
       packages=packages,
       keywords=['oceanography', 'seawater'],
       ext_modules=[qc_extension, polycals_extension],
-      setup_requires=['setuptools_cython'],
       install_requires=[
         'cython',
         'numpy',
