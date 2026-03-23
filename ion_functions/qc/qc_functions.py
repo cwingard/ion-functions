@@ -121,7 +121,7 @@ def dataqc_localrangetest_wrapper(dat, datlim, datlimz, dims, pval_callback):
         if dim == 'month':
             # Convert time vector to vector of months
             v = pval_callback('time')
-            v = np.asanyarray(v, dtype=np.float)
+            v = np.asanyarray(v, dtype=float)
             v = ntp_to_month(v)
             z.append(v)
         else:
@@ -343,7 +343,7 @@ def dataqc_spiketest(dat, acc, N=5, L=5, strict_validation=False):
 
             if not utils.isreal(arg).all():
                 raise ValueError('\'{0}\' must be real'.format(k))
-    dat = np.asanyarray(dat, dtype=np.float)
+    dat = np.asanyarray(dat, dtype=float)
     
     out = spikevalues(dat, L, N, acc)
     return out
@@ -509,7 +509,7 @@ def dataqc_stuckvaluetest(x, reso, num=10, strict_validation=False):
                 raise ValueError('\'{0}\' must be real'.format(k))
 
     num = np.abs(num)
-    dat = np.asanyarray(dat, dtype=np.float)
+    dat = np.asanyarray(dat, dtype=float)
     ll = len(x)
     if ll < num:
         # Warn - 'num' is greater than len(x), returning zeros
@@ -601,8 +601,8 @@ def dataqc_gradienttest(dat, x, ddatdx, mindx, startdat, toldat, strict_validati
         if not all(np.diff(x) > 0):
             raise ValueError('\'x\' must be montonically increasing')
 
-    dat = np.asanyarray(dat, dtype=np.float).flatten()
-    x = np.asanyarray(x, dtype=np.float).flatten()
+    dat = np.asanyarray(dat, dtype=float).flatten()
+    x = np.asanyarray(x, dtype=float).flatten()
 
     if np.isnan(mindx):
         mindx = 0
