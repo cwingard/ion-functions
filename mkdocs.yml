@@ -1,0 +1,47 @@
+site_name: ion-functions
+site_url: https://oceanobservatories.github.io/ion-functions/
+site_description: OOI oceanographic data processing functions
+repo_url: https://github.com/oceanobservatories/ion-functions
+repo_name: oceanobservatories/ion-functions
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: light blue
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - toc.follow
+    - search.suggest
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_source: false
+            show_root_heading: true
+            show_root_full_path: false
+            heading_level: 2
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Getting Started: getting_started.md
+  - API Reference:
+    - Hydrophone: api/hyd_functions.md
+  - OOI System Interface:
+    - Overview: ooi_interface.md

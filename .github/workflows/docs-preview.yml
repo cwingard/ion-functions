@@ -1,0 +1,30 @@
+name: Deploy docs preview to GitHub Pages
+
+on:
+  push:
+    branches:
+      - documentation
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install numpy scipy gsw ppigrf numexpr mkdocs-material mkdocstrings[python]
+
+      - name: Add package to PYTHONPATH
+        run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+
+      - name: Deploy
+        run: mkdocs gh-deploy --force --site-url https://cwingard.github.io/ion-functions/
