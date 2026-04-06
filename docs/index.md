@@ -13,6 +13,7 @@ oxygen, CO2, fluorometry, pH, pressure, meteorology, and more.
 |--------|-------------|---------------|
 | [Hydrophone](api/hyd_functions.md) | HYDBB, HYDLF | HYDAPBB, HYDAPLF |
 | [CTD](api/ctd_functions.md) | SBE 16Plus, SBE 37IM, SBE 52MP, glider CTDs | TEMPWAT, PRESWAT, CONDWAT, PRACSAL, DENSITY |
+| [Fluorometer](api/flo_functions.md) | ECO FLORD, FLORT, FLNTU | CHLAFLO, CDOMFLO, FLUBSCT |
 
 ## Data product levels
 
