@@ -36,11 +36,6 @@ def hyd_bb_acoustic_pwaves(wav, gain):
     The HYDBB instrument senses passive acoustic pressure waves from 5 Hz to
     100 kHz at 24-bit resolution. Raw voltages are scaled by 3 V full-scale
     before gain correction.
-
-    References
-    ----------
-    OOI (2013). Data Product Specification for Acoustic Pressure Waves.
-        Document Control Number 1341-00820.
     """
     # shape inputs to correct dimensions
     wav = np.atleast_2d(wav)
@@ -84,7 +79,8 @@ def hyd_lf_acoustic_pwaves(raw, gain=3.2):
     References
     ----------
     OOI (2013). Data Product Specification for Low Frequency Acoustic Pressure
-        Waves. Document Control Number 1341-00821.
+        Waves. Document Control Number 1341-00821. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00821_Data_Product_SPEC_HYDAPLF_OOI.pdf
     """
     # apply the gain correction to convert the signal from counts to V
     gain = gain * 1.0e-6
