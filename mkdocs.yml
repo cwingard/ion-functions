@@ -46,5 +46,6 @@ nav:
   - API Reference:
     - Hydrophone: api/hyd_functions.md
     - CTD: api/ctd_functions.md
+    - Fluorometer: api/flo_functions.md
   - OOI System Interface:
     - Overview: ooi_interface.md
