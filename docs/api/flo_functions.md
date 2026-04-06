@@ -78,8 +78,6 @@ combined seawater and particulate contribution.
 
 ## Core functions
 
-### flo_bback_total
-
 ::: ion_functions.data.flo_functions.flo_bback_total
 
 #### History
@@ -108,8 +106,6 @@ Reviews 7, pp 189–224.
 
 ---
 
-### flo_scat_seawater
-
 ::: ion_functions.data.flo_functions.flo_scat_seawater
 
 #### History
@@ -125,8 +121,6 @@ Document Control Number 1341-00540.
 [https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf)
 
 ---
-
-### flo_zhang_scatter_coeffs
 
 ::: ion_functions.data.flo_functions.flo_zhang_scatter_coeffs
 
@@ -161,8 +155,6 @@ Millero, F.J., and Leung (1976). American Journal of Science, 276, 1035–1077.
 
 ---
 
-### flo_refractive_index
-
 ::: ion_functions.data.flo_functions.flo_refractive_index
 
 #### History
@@ -189,8 +181,6 @@ of seawater. Applied Optics.
 
 ---
 
-### flo_isotherm_compress
-
 ::: ion_functions.data.flo_functions.flo_isotherm_compress
 
 #### History
@@ -213,8 +203,6 @@ Lepple, F.K., and F.J. Millero (1971). Deep-Sea Research, pp. 10–11.
 Millero, F.J. (1980). Deep-Sea Research.
 
 ---
-
-### flo_density_seawater
 
 ::: ion_functions.data.flo_functions.flo_density_seawater
 
@@ -239,8 +227,6 @@ Science, No. 38.
 
 ---
 
-### flo_scale_and_offset
-
 ::: ion_functions.data.flo_functions.flo_scale_and_offset
 
 #### History
@@ -255,8 +241,6 @@ Science, No. 38.
 None
 
 ---
-
-### flo_chla
 
 ::: ion_functions.data.flo_functions.flo_chla
 
@@ -280,8 +264,6 @@ Concentration. Document Control Number 1341-00530.
 [https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00530_Data_Product_SPEC_CHLAFLO_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00530_Data_Product_SPEC_CHLAFLO_OOI.pdf)
 
 ---
-
-### flo_cdom
 
 ::: ion_functions.data.flo_functions.flo_cdom
 
@@ -309,8 +291,6 @@ Document Control Number 1341-00550.
 [https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00550_Data_Product_SPEC_CDOMFLO_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00550_Data_Product_SPEC_CDOMFLO_OOI.pdf)
 
 ---
-
-### flo_beta
 
 ::: ion_functions.data.flo_functions.flo_beta
 

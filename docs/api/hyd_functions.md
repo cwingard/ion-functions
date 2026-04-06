@@ -25,8 +25,6 @@ see [References](#references) for the HYDAPLF specification.
 
 ## Core functions
 
-### hyd_bb_acoustic_pwaves
-
 ::: ion_functions.data.hyd_functions.hyd_bb_acoustic_pwaves
 
 #### History
@@ -39,8 +37,6 @@ see [References](#references) for the HYDAPLF specification.
 #### References
 
 None
-
-### hyd_lf_acoustic_pwaves
 
 ::: ion_functions.data.hyd_functions.hyd_lf_acoustic_pwaves
 

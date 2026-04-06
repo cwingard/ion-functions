@@ -30,8 +30,6 @@ the single conversion function rescales to dbar.
 
 ## Core functions
 
-### ctd_sbe16plus_tempwat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe16plus_tempwat
 
 #### History
@@ -52,8 +50,6 @@ Document Control Number 1341-00010.
 
 ---
 
-### ctd_sbe37im_tempwat_instrument_recovered
-
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_tempwat_instrument_recovered
 
 #### History
@@ -71,8 +67,6 @@ Document Control Number 1341-00010.
 
 ---
 
-### ctd_sbe37im_tempwat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_tempwat
 
 #### History
@@ -89,8 +83,6 @@ Document Control Number 1341-00010.
 
 ---
 
-### ctd_sbe52mp_tempwat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe52mp_tempwat
 
 #### History
@@ -106,8 +98,6 @@ Document Control Number 1341-00010.
 [https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf)
 
 ---
-
-### ctd_sbe16plus_preswat
 
 ::: ion_functions.data.ctd_functions.ctd_sbe16plus_preswat
 
@@ -128,8 +118,6 @@ Document Control Number 1341-00020.
 
 ---
 
-### ctd_sbe16digi_preswat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe16digi_preswat
 
 #### History
@@ -147,8 +135,6 @@ Document Control Number 1341-00020.
 
 ---
 
-### ctd_sbe37im_preswat_instrument_recovered
-
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_preswat_instrument_recovered
 
 #### History
@@ -164,8 +150,6 @@ Document Control Number 1341-00020.
 [https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
 
 ---
-
-### ctd_sbe37im_preswat
 
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_preswat
 
@@ -183,8 +167,6 @@ Document Control Number 1341-00020.
 
 ---
 
-### ctd_glider_preswat
-
 ::: ion_functions.data.ctd_functions.ctd_glider_preswat
 
 #### History
@@ -201,8 +183,6 @@ Document Control Number 1341-00020.
 
 ---
 
-### ctd_sbe52mp_preswat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe52mp_preswat
 
 #### History
@@ -218,8 +198,6 @@ Document Control Number 1341-00020.
 [https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
 
 ---
-
-### ctd_sbe16plus_condwat
 
 ::: ion_functions.data.ctd_functions.ctd_sbe16plus_condwat
 
@@ -239,8 +217,6 @@ Document Control Number 1341-00030.
 
 ---
 
-### ctd_sbe37im_condwat_instrument_recovered
-
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_condwat_instrument_recovered
 
 #### History
@@ -258,8 +234,6 @@ Document Control Number 1341-00030.
 
 ---
 
-### ctd_sbe37im_condwat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe37im_condwat
 
 #### History
@@ -276,8 +250,6 @@ Document Control Number 1341-00030.
 
 ---
 
-### ctd_sbe52mp_condwat
-
 ::: ion_functions.data.ctd_functions.ctd_sbe52mp_condwat
 
 #### History
@@ -293,8 +265,6 @@ Document Control Number 1341-00030.
 [https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf)
 
 ---
-
-### ctd_pracsal
 
 ::: ion_functions.data.ctd_functions.ctd_pracsal
 
@@ -314,8 +284,6 @@ Document Control Number 1341-00040.
 [https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00040_Data_Product_SPEC_PRACSAL_OOI.pdf](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00040_Data_Product_SPEC_PRACSAL_OOI.pdf)
 
 ---
-
-### ctd_density
 
 ::: ion_functions.data.ctd_functions.ctd_density
 
