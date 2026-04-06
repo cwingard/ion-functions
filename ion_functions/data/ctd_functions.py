@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 """
-@package ion_functions.data.ctd_functions
-@file ion_functions/data/ctd_functions.py
-@author Christopher Wingard
-@brief Module containing CTD related data-calculations.
+Functions for processing data from the OOI CTD instrument family.
+
+Covers Sea-Bird Electronics SBE 16Plus, SBE 37IM, SBE 52MP, and glider-mounted
+CTD instruments (CTDBP, CTDMO, CTDPF, CTDGV), producing L1 temperature
+(TEMPWAT), pressure (PRESWAT), and conductivity (CONDWAT) data products and
+L2 practical salinity (PRACSAL) and density (DENSITY) data products.
 """
 
 # Import Numpy and the GSW library
@@ -12,42 +14,35 @@ import gsw
 
 def ctd_sbe16plus_tempwat(t0, a0, a1, a2, a3):
     """
-    Description:
+    Compute water temperature (TEMPWAT_L1) from SBE 16Plus raw counts.
 
-        OOI Level 1 Water Temperature data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the SBE thermistor calibration equation to convert raw temperature
+    counts to degrees Celsius. Used for CTDBP (all series) and CTDPF (series
+    A and B) instruments.
 
-        This data product is derived from SBE 16Plus instruments and applies to
-        CTDBP instruments, all series, and CTDPF instruments, series A and B.
+    Parameters
+    ----------
+    t0 : array_like
+        Raw temperature (TEMPWAT_L0) [counts].
+    a0 : float
+        Thermistor calibration coefficient.
+    a1 : float
+        Thermistor calibration coefficient.
+    a2 : float
+        Thermistor calibration coefficient.
+    a3 : float
+        Thermistor calibration coefficient.
 
-    Implemented by:
+    Returns
+    -------
+    t : ndarray
+        Sea water temperature (TEMPWAT_L1) [deg_C].
 
-        2013-04-12: Luke Campbell. Initial Code
-        2013-04-12: Christopher Wingard. Minor edits
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-        2023-08-15: Samuel Dahlberg. Removed use of numexpr
-
-    Usage:
-
-        t = ctd_sbe16plus_tempwat(t0, a0, a1, a2, a3)
-
-            where
-
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        t0 = raw temperature (TEMPWAT_L0) [counts]
-        a0 = temperature calibration coefficients
-        a1 = temperature calibration coefficients
-        a2 = temperature calibration coefficients
-        a3 = temperature calibration coefficients
-
-    References:
-
-        OOI (2012). Data Product Specification for Water Temperature. Document
-            Control Number 1341-00010. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Water Temperature.
+        Document Control Number 1341-00010. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     mv = (t0 - 524288) / 1.6e7
@@ -58,41 +53,39 @@ def ctd_sbe16plus_tempwat(t0, a0, a1, a2, a3):
 
 def ctd_sbe37im_tempwat_instrument_recovered(t0, a0, a1, a2, a3):
     """
-    Description:
+    Compute water temperature (TEMPWAT_L1) from SBE 37IM instrument-recovered counts.
 
-        OOI Level 1 Water Temperature data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the SBE thermistor calibration equation to instrument-recovered
+    temperature counts. Used for CTDMO (all series) data recovered directly
+    from the instrument (not telemetered or recovered_host).
 
-        This data product is derived from SBE 37IM instruments, all series, and
-        specifically processes data recovered directly from the CTD itself.
+    Parameters
+    ----------
+    t0 : array_like
+        Raw temperature (TEMPWAT_L0) recovered from the instrument [counts].
+    a0 : float
+        Thermistor calibration coefficient.
+    a1 : float
+        Thermistor calibration coefficient.
+    a2 : float
+        Thermistor calibration coefficient.
+    a3 : float
+        Thermistor calibration coefficient.
 
-    Implemented by:
+    Returns
+    -------
+    t : ndarray
+        Sea water temperature (TEMPWAT_L1) [deg_C].
 
-        2016-06-16: Russell Desiderio. Initial Code
-        2023-08-15: Samuel Dahlberg. Removed use of numexpr
+    Notes
+    -----
+    This algorithm was not included in the TEMPWAT DPS as of June 2016.
 
-    Usage:
-
-        t = ctd_sbe37im_tempwat_instrument_recovered(t0, a0, a1, a2, a3)
-
-            where
-
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        t0 = raw temperature (TEMPWAT_L0) [counts] as recovered from the CTD itself
-        a0 = temperature calibration coefficient
-        a1 = temperature calibration coefficient
-        a2 = temperature calibration coefficient
-        a3 = temperature calibration coefficient
-
-    References:
-
-        As of June 2016 the following DPS does not contain this specification.
-
-        OOI (2012). Data Product Specification for Water Temperature. Document
-            Control Number 1341-00010. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Water Temperature.
+        Document Control Number 1341-00010. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = 1 / (a0 + a1 * np.log(t0) + a2 * np.log(t0)**2 + a3 * np.log(t0)**3) - 273.15
@@ -101,35 +94,27 @@ def ctd_sbe37im_tempwat_instrument_recovered(t0, a0, a1, a2, a3):
 
 def ctd_sbe37im_tempwat(t0):
     """
-    Description:
+    Compute water temperature (TEMPWAT_L1) from SBE 37IM telemetered counts.
 
-        OOI Level 1 Water Temperature data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw temperature counts to degrees Celsius for telemetered and
+    recovered_host data from CTDMO instruments (all series). For
+    instrument-recovered data use `ctd_sbe37im_tempwat_instrument_recovered`.
 
-        This data product is derived from SBE 37IM instruments and applies to
-        CTDMO instruments, all series, and specifically processes telemetered and
-        recovered_host (not recovered_instrument) data.
+    Parameters
+    ----------
+    t0 : array_like
+        Raw temperature (TEMPWAT_L0) [counts].
 
-    Implemented by:
+    Returns
+    -------
+    t : ndarray
+        Sea water temperature (TEMPWAT_L1) [deg_C].
 
-        2014-02-05: Russell Desiderio. Initial Code
-
-    Usage:
-
-        t = ctd_sbe37im_tempwat(t0)
-
-            where
-
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        t0 = raw temperature (TEMPWAT_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Water Temperature. Document
-            Control Number 1341-00010. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Water Temperature.
+        Document Control Number 1341-00010. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = t0 / 10000.0 - 10.0
@@ -138,34 +123,26 @@ def ctd_sbe37im_tempwat(t0):
 
 def ctd_sbe52mp_tempwat(t0):
     """
-    Description:
+    Compute water temperature (TEMPWAT_L1) from SBE 52MP raw counts.
 
-        OOI Level 1 Water Temperature data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw temperature counts to degrees Celsius for CTDPF instruments
+    (series C, K, and L).
 
-        This data product is derived from SBE 52MP instruments and applies to
-        CTDPF instruments, C,K,L series.
+    Parameters
+    ----------
+    t0 : array_like
+        Raw temperature (TEMPWAT_L0) [counts].
 
-    Implemented by:
+    Returns
+    -------
+    t : ndarray
+        Sea water temperature (TEMPWAT_L1) [deg_C].
 
-        2014-02-17: Russell Desiderio. Initial Code
-
-    Usage:
-
-        t = ctd_sbe52mp_tempwat(t0)
-
-            where
-
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        t0 = raw temperature (TEMPWAT_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Water Temperature. Document
-            Control Number 1341-00010. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Water Temperature.
+        Document Control Number 1341-00010. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = t0 / 10000.0 - 5.0
@@ -176,55 +153,55 @@ def ctd_sbe16plus_preswat(p0, t0, ptempa0, ptempa1, ptempa2,
                           ptca0, ptca1, ptca2, ptcb0, ptcb1, ptcb2,
                           pa0, pa1, pa2, offset=0):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from SBE 16Plus strain gauge counts.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the strain gauge pressure calibration equation for SBE 16Plus
+    instruments. Used for most CTDBP instruments (all series except N and O)
+    and CTDPF instruments (series A and B).
 
-        This data product is derived from SBE 16Plus instruments outfitted with
-        a strain gauge pressure sensor. This is the default for most of the CTDBP
-        instruments (the exceptions are series N and O) and for CTDPF instruments,
-        series A and B.
+    Parameters
+    ----------
+    p0 : array_like
+        Raw pressure (PRESWAT_L0) [counts].
+    t0 : array_like
+        Raw temperature from pressure sensor thermistor [counts].
+    ptempa0 : float
+        Pressure thermistor calibration coefficient.
+    ptempa1 : float
+        Pressure thermistor calibration coefficient.
+    ptempa2 : float
+        Pressure thermistor calibration coefficient.
+    ptca0 : float
+        Strain gauge temperature compensation coefficient.
+    ptca1 : float
+        Strain gauge temperature compensation coefficient.
+    ptca2 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb0 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb1 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb2 : float
+        Strain gauge temperature compensation coefficient.
+    pa0 : float
+        Strain gauge pressure calibration coefficient.
+    pa1 : float
+        Strain gauge pressure calibration coefficient.
+    pa2 : float
+        Strain gauge pressure calibration coefficient.
+    offset : float, optional
+        Correction for Druck sensor offset error [dbar]. Default is 0.
 
-    Implemented by:
+    Returns
+    -------
+    p_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2013-04-12: Chris Wingard. Initial Code.
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-        2017-03-31: Dan Mergens. Update to correct adjust for Druck offset.
-
-    Usage:
-
-        p = ctd_sbe16plus_preswat(p0, t0, ptempa0, ptempa1, ptempa2,
-                          ptca0, ptca1, ptca2, ptcb0, ptcb1, ptcb2,
-                          pa0, pa1, pa2, offset)
-
-            where
-
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        p0 = raw pressure (PRESWAT_L0) [counts]
-        t0 = raw temperature from pressure sensor thermistor [counts]
-        ptempa0 = strain gauge pressure calibration coefficients
-        ptempa1 = strain gauge pressure calibration coefficients
-        ptempa2 = strain gauge pressure calibration coefficients
-        ptca0 = strain gauge pressure calibration coefficients
-        ptca1 = strain gauge pressure calibration coefficients
-        ptca2 = strain gauge pressure calibration coefficients
-        ptcb0 = strain gauge pressure calibration coefficients
-        ptcb1 = strain gauge pressure calibration coefficients
-        ptcb2 = strain gauge pressure calibration coefficients
-        pa0 = strain gauge pressure calibration coefficients
-        pa1 = strain gauge pressure calibration coefficients
-        pa2 = strain gauge pressure calibration coefficients
-        offset = correction for Druck error [dbar]
-
-    References:
-
-        OOI (2012). Data Product Specification for Pressure (Depth). Document
-            Control Number 1341-00020. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute calibration parameters
     tv = t0 / 13107.0
@@ -240,56 +217,49 @@ def ctd_sbe16plus_preswat(p0, t0, ptempa0, ptempa1, ptempa2,
 
 def ctd_sbe16digi_preswat(p0, t0, C1, C2, C3, D1, D2, T1, T2, T3, T4, T5):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from SBE 16Plus digiquartz counts.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the digiquartz pressure calibration equation for SBE 16Plus
+    instruments equipped with a digiquartz pressure sensor. Applies to
+    CTDBP-N and CTDBP-O instruments only.
 
-        This data product is derived from SBE 16Plus instruments outfitted with
-        a digiquartz pressure sensor. This applies to the CTDBP-N,O instruments
-        only.
+    Parameters
+    ----------
+    p0 : array_like
+        Raw pressure (PRESWAT_L0) [counts].
+    t0 : array_like
+        Raw temperature from pressure sensor thermistor [counts].
+    C1 : float
+        Digiquartz pressure calibration coefficient.
+    C2 : float
+        Digiquartz pressure calibration coefficient.
+    C3 : float
+        Digiquartz pressure calibration coefficient.
+    D1 : float
+        Digiquartz pressure calibration coefficient.
+    D2 : float
+        Digiquartz pressure calibration coefficient.
+    T1 : float
+        Digiquartz pressure calibration coefficient.
+    T2 : float
+        Digiquartz pressure calibration coefficient.
+    T3 : float
+        Digiquartz pressure calibration coefficient.
+    T4 : float
+        Digiquartz pressure calibration coefficient.
+    T5 : float
+        Digiquartz pressure calibration coefficient.
 
-    Implemented by:
+    Returns
+    -------
+    p_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2013-05-10: Christopher Wingard. Initial Code.
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-        2014-01-31: Russell Desiderio. Modified algorithm to use pressure [Hz] (pf)
-                    to calculate pressure period instead of pressure [counts] (p0).
-                    See SeaBird 16Plus V2 User Manual (reference (2)), page 57, item 5.
-
-    Usage:
-
-        p = ctd_sbe16digi_preswat(p0,t0,C1,C2,C3,D1,D2,T1,T2,T3,T4,T5)
-
-            where
-
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        p0 = raw pressure (PRESWAT_L0) [counts]
-        t0 = raw temperature from pressure sensor thermistor [counts]
-        C1 = digiquartz pressure calibration coefficients
-        C2 = digiquartz pressure calibration coefficients
-        C3 = digiquartz pressure calibration coefficients
-        D1 = digiquartz pressure calibration coefficients
-        D2 = digiquartz pressure calibration coefficients
-        T1 = digiquartz pressure calibration coefficients
-        T2 = digiquartz pressure calibration coefficients
-        T3 = digiquartz pressure calibration coefficients
-        T4 = digiquartz pressure calibration coefficients
-        T5 = digiquartz pressure calibration coefficients
-
-    References:
-
-        OOI (2012). Data Product Specification for Pressure (Depth). Document
-            Control Number 1341-00020. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
-
-        OOI (2011). SeaBird 16Plus V2 User Manual. 1341-00020_PRESWAT Artifact.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >> OOI >>
-            >> REFERENCE >> Data Product Specification Artifacts >> 1341-00020_PRESWAT >>
-            PRESWAT_SeaBird_16PlusV2_2009.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # Convert raw pressure input to frequency [Hz]
     pf = p0 / 256.0
@@ -318,51 +288,57 @@ def ctd_sbe37im_preswat_instrument_recovered(p0, pt0, ptempa0, ptempa1, ptempa2,
                                              ptca0, ptca1, ptca2, ptcb0, ptcb1, ptcb2,
                                              pa0, pa1, pa2):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from SBE 37IM instrument-recovered counts.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the strain gauge pressure calibration equation to instrument-recovered
+    pressure counts from CTDMO instruments (all series). For telemetered or
+    recovered_host data use `ctd_sbe37im_preswat`.
 
-        This data product is derived from SBE 37IM instruments, all series, and
-        specifically processes data recovered directly from the CTD itself.
+    Parameters
+    ----------
+    p0 : array_like
+        Raw pressure (PRESWAT_L0) recovered from the instrument [counts].
+    pt0 : array_like
+        Raw temperature from pressure sensor thermistor [counts].
+    ptempa0 : float
+        Pressure thermistor calibration coefficient.
+    ptempa1 : float
+        Pressure thermistor calibration coefficient.
+    ptempa2 : float
+        Pressure thermistor calibration coefficient.
+    ptca0 : float
+        Strain gauge temperature compensation coefficient.
+    ptca1 : float
+        Strain gauge temperature compensation coefficient.
+    ptca2 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb0 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb1 : float
+        Strain gauge temperature compensation coefficient.
+    ptcb2 : float
+        Strain gauge temperature compensation coefficient.
+    pa0 : float
+        Strain gauge pressure calibration coefficient.
+    pa1 : float
+        Strain gauge pressure calibration coefficient.
+    pa2 : float
+        Strain gauge pressure calibration coefficient.
 
-    Implemented by:
+    Returns
+    -------
+    p_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2016-06-16: Russell Desiderio. Initial Code
+    Notes
+    -----
+    This algorithm was not included in the PRESWAT DPS as of June 2016.
 
-    Usage:
-
-        p = ctd_sbe37im_preswat_instrument_recovered(p0, pt0, ptempa0, ptempa1, ptempa2,
-                                                     ptca0, ptca1, ptca2, ptcb0, ptcb1, ptcb2,
-                                                     pa0, pa1, pa2)
-
-            where
-
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        p0 = raw pressure (PRESWAT_L0) [counts] as recovered from the CTD itself
-        pt0 = raw temperature from pressure sensor thermistor [counts]
-        ptempa0 = strain gauge pressure calibration coefficients
-        ptempa1 = strain gauge pressure calibration coefficients
-        ptempa2 = strain gauge pressure calibration coefficients
-        ptca0 = strain gauge pressure calibration coefficients
-        ptca1 = strain gauge pressure calibration coefficients
-        ptca2 = strain gauge pressure calibration coefficients
-        ptcb0 = strain gauge pressure calibration coefficients
-        ptcb1 = strain gauge pressure calibration coefficients
-        ptcb2 = strain gauge pressure calibration coefficients
-        pa0 = strain gauge pressure calibration coefficients
-        pa1 = strain gauge pressure calibration coefficients
-        pa2 = strain gauge pressure calibration coefficients
-
-    References:
-
-        As of June 2016 the following DPS does not contain this specification.
-
-        OOI (2012). Data Product Specification for Pressure (Depth). Document
-            Control Number 1341-00020. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute calibration parameters
     t = ptempa0 + ptempa1 * pt0 + ptempa2 * pt0**2
@@ -377,36 +353,29 @@ def ctd_sbe37im_preswat_instrument_recovered(p0, pt0, ptempa0, ptempa1, ptempa2,
 
 def ctd_sbe37im_preswat(p0, p_range_psia):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from SBE 37IM telemetered counts.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw pressure counts to dbar for telemetered and recovered_host
+    data from CTDMO instruments (all series). For instrument-recovered data
+    use `ctd_sbe37im_preswat_instrument_recovered`.
 
-        This data product is derived from SBE 37IM instruments and applies to
-        CTDMO instruments, all series, and specifically processes telemetered and
-        recovered_host (not recovered_instrument) data.
+    Parameters
+    ----------
+    p0 : array_like
+        Raw pressure (PRESWAT_L0) [counts].
+    p_range_psia : float
+        Pressure range calibration coefficient [psia].
 
-    Implemented by:
+    Returns
+    -------
+    p_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2014-02-05: Russell Desiderio. Initial Code
-
-    Usage:
-
-        p = ctd_sbe37im_preswat(p0, p_range_psia)
-
-            where
-
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        p0 = raw pressure (PRESWAT_L0) [counts]
-        p_range_psia = pressure range calibration coefficient [psia]
-
-    References:
-
-        OOI (2012). Data Product Specification for Pressure (Depth). Document
-            Control Number 1341-00020. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute pressure range in units of dbar
     p_range_dbar = (p_range_psia - 14.7) * 0.6894757
@@ -418,35 +387,26 @@ def ctd_sbe37im_preswat(p0, p_range_psia):
 
 def ctd_glider_preswat(pr_bar):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from glider CTD pressure in bar.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts pressure reported in bar by Seabird CTDs installed on gliders
+    to dbar. Used for CTDGV instruments.
 
-        This data product is derived from Seabird CTDs installed on gliders and
-        applies to CTDGV instruments.
+    Parameters
+    ----------
+    pr_bar : array_like
+        Sea water pressure reported by the glider [bar].
 
-    Implemented by:
+    Returns
+    -------
+    pr_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2015-10-28: Russell Desiderio. Initial Code
-
-    Usage:
-
-        pr_dbar = ctd_glider_preswat(pr_bar)
-
-            where
-
-        pr_dbar = sea water pressure (PRESWAT_L1) [dbar]
-        pr_bar = sea water pressure value from glider [bar]
-
-    References:
-
-        OOI (2015). Data Product Specification for Coastal Glider Data Products
-            (version 1-03). Document Control Number 1341-00020.
-            https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-20001_Data_Product_SPEC_CSGLIDR_OOI.docx)
+    References
+    ----------
+    OOI (2015). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
 
     pr_dbar = pr_bar * 10.0
@@ -455,34 +415,26 @@ def ctd_glider_preswat(pr_bar):
 
 def ctd_sbe52mp_preswat(p0):
     """
-    Description:
+    Compute water pressure (PRESWAT_L1) from SBE 52MP raw counts.
 
-        OOI Level 1 Pressure (Depth) data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw pressure counts to dbar for CTDPF instruments (series C,
+    K, and L).
 
-        This data product is derived from SBE 52MP instruments and applies to
-        CTDPF instruments, C,K,L series.
+    Parameters
+    ----------
+    p0 : array_like
+        Raw pressure (PRESWAT_L0) [counts].
 
-    Implemented by:
+    Returns
+    -------
+    p_dbar : ndarray
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2014-02-17: Russell Desiderio. Initial Code
-
-    Usage:
-
-        p = ctd_sbe52mp_preswat(p0)
-
-            where
-
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        p0 = raw pressure (PRESWAT_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Pressure (Depth). Document
-            Control Number 1341-00020. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Pressure (Depth).
+        Document Control Number 1341-00020. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
 
     p_dbar = p0 / 100.0 - 10.0
@@ -491,44 +443,43 @@ def ctd_sbe52mp_preswat(p0):
 
 def ctd_sbe16plus_condwat(c0, t1, p1, g, h, i, j, cpcor, ctcor):
     """
-    Description:
+    Compute water conductivity (CONDWAT_L1) from SBE 16Plus raw counts.
 
-        OOI Level 1 Conductivity core data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the SBE conductivity calibration equation to convert raw counts
+    to S m-1. Used for CTDBP instruments (all series) and CTDPF instruments
+    (series A and B).
 
-        This data product is derived from SBE 16Plus instruments and applies to
-        CTDBP instruments, all series, and CTDPF instruments, series A and B.
+    Parameters
+    ----------
+    c0 : array_like
+        Raw conductivity (CONDWAT_L0) [counts].
+    t1 : array_like
+        Sea water temperature (TEMPWAT_L1) [deg_C].
+    p1 : array_like
+        Sea water pressure (PRESWAT_L1) [dbar].
+    g : float
+        Conductivity calibration coefficient.
+    h : float
+        Conductivity calibration coefficient.
+    i : float
+        Conductivity calibration coefficient.
+    j : float
+        Conductivity calibration coefficient.
+    cpcor : float
+        Pressure correction factor for conductivity.
+    ctcor : float
+        Temperature correction factor for conductivity.
 
-    Implemented by:
+    Returns
+    -------
+    c : ndarray
+        Sea water conductivity (CONDWAT_L1) [S m-1].
 
-        2013-04-12: Christopher Wingard. Initial Code
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-
-    Usage:
-
-        c = ctd_sbe16plus_condwat(c0, t1, p1, g, h, i, j, cpcor, ctcor)
-
-            where
-
-        c = sea water conductivity (CONDWAT_L1) [S m-1]
-        c0 = sea water conductivity (CONDWAT_L0) [counts]
-        t1 = sea water temperature (TEMPWAT_L1) [deg_C]
-        p1 = sea water pressure (PRESWAT_L1) [dbar]
-        g = conductivity calibration coefficients
-        h = conductivity calibration coefficients
-        i = conductivity calibration coefficients
-        j = conductivity calibration coefficients
-        cpcor = conductivity calibration coefficients
-        ctcor = conductivity calibration coefficients
-
-    References:
-
-        OOI (2012). Data Product Specification for Conductivity. Document
-            Control Number 1341-00030. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Conductivity.
+        Document Control Number 1341-00030. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
     # convert raw conductivity measurement to frequency
     f = (c0 / 256.0) / 1000.0
@@ -540,46 +491,49 @@ def ctd_sbe16plus_condwat(c0, t1, p1, g, h, i, j, cpcor, ctcor):
 
 def ctd_sbe37im_condwat_instrument_recovered(c0, t1, p1, g, h, i, j, cpcor, ctcor, wbotc):
     """
-    Description:
+    Compute water conductivity (CONDWAT_L1) from SBE 37IM instrument-recovered counts.
 
-        OOI Level 1 Conductivity core data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Applies the SBE conductivity calibration equation to instrument-recovered
+    conductivity counts from CTDMO instruments (all series). For telemetered
+    or recovered_host data use `ctd_sbe37im_condwat`.
 
-        This data product is derived from SBE 37IM instruments, all series, and
-        specifically processes data recovered directly from the CTD itself.
+    Parameters
+    ----------
+    c0 : array_like
+        Raw conductivity (CONDWAT_L0) recovered from the instrument [counts].
+    t1 : array_like
+        Sea water temperature (TEMPWAT_L1) [deg_C].
+    p1 : array_like
+        Sea water pressure (PRESWAT_L1) [dbar].
+    g : float
+        Conductivity calibration coefficient.
+    h : float
+        Conductivity calibration coefficient.
+    i : float
+        Conductivity calibration coefficient.
+    j : float
+        Conductivity calibration coefficient.
+    cpcor : float
+        Pressure correction factor for conductivity.
+    ctcor : float
+        Temperature correction factor for conductivity.
+    wbotc : float
+        Temperature coefficient for conductivity cell thermal mass correction.
 
-    Implemented by:
+    Returns
+    -------
+    c : ndarray
+        Sea water conductivity (CONDWAT_L1) [S m-1].
 
-        2016-06-16: Russell Desiderio. Initial Code
-        2023-08-15: Samuel Dahlberg. Removed use of numexpr
+    Notes
+    -----
+    This algorithm was not included in the CONDWAT DPS as of June 2016.
 
-    Usage:
-
-        c = ctd_sbe37im_condwat_instrument_recovered(c0, t1, p1, g, h, i, j, cpcor, ctcor, wbotc)
-
-            where
-
-        c = sea water conductivity (CONDWAT_L1) [S m-1]
-        c0 = sea water conductivity (CONDWAT_L0) [counts] as recovered from the CTD itself
-        t1 = sea water temperature (TEMPWAT_L1) [deg_C]
-        p1 = sea water pressure (PRESWAT_L1) [dbar]
-        g = conductivity calibration coefficients
-        h = conductivity calibration coefficients
-        i = conductivity calibration coefficients
-        j = conductivity calibration coefficients
-        cpcor = conductivity calibration coefficients
-        ctcor = conductivity calibration coefficients
-        wbotc = conductivity calibration coefficients
-
-    References:
-
-        As of June 2016 the following DPS does not contain this specification.
-
-        OOI (2012). Data Product Specification for Conductivity. Document
-            Control Number 1341-00030. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Conductivity.
+        Document Control Number 1341-00030. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
     # convert raw conductivity measurement to frequency
     f = (c0 / 256.0) / 1000.0 * np.sqrt(1.0 + wbotc * t1)
@@ -591,36 +545,28 @@ def ctd_sbe37im_condwat_instrument_recovered(c0, t1, p1, g, h, i, j, cpcor, ctco
 
 def ctd_sbe37im_condwat(c0):
     """
-    Description:
+    Compute water conductivity (CONDWAT_L1) from SBE 37IM telemetered counts.
 
-        OOI Level 1 Conductivity core data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw conductivity counts to S m-1 for telemetered and
+    recovered_host data from CTDMO instruments (all series). For
+    instrument-recovered data use `ctd_sbe37im_condwat_instrument_recovered`.
 
-        This data product is derived from SBE 37IM instruments and applies to
-        CTDMO instruments, all series, and specifically processes telemetered and
-        recovered_host (not recovered_instrument) data.
+    Parameters
+    ----------
+    c0 : array_like
+        Raw conductivity (CONDWAT_L0) [counts].
 
-    Implemented by:
+    Returns
+    -------
+    c : ndarray
+        Sea water conductivity (CONDWAT_L1) [S m-1].
 
-        2014-02-05: Russell Desiderio. Initial Code
-
-    Usage:
-
-        c = ctd_sbe37im_condwat(c0)
-
-            where
-
-        c = sea water conductivity (CONDWAT_L1) [S m-1]
-        c0 = sea water conductivity (CONDWAT_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Conductivity. Document
-            Control Number 1341-00030. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf)
-   """
+    References
+    ----------
+    OOI (2012). Data Product Specification for Conductivity.
+        Document Control Number 1341-00030. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
+    """
 
     c = c0 / 100000.0 - 0.5
     return c
@@ -628,35 +574,27 @@ def ctd_sbe37im_condwat(c0):
 
 def ctd_sbe52mp_condwat(c0):
     """
-    Description:
+    Compute water conductivity (CONDWAT_L1) from SBE 52MP raw counts.
 
-        OOI Level 1 Conductivity core data product, which is calculated using
-        data from the Sea-Bird Electronics conductivity, temperature and depth
-        (CTD) family of instruments.
+    Converts raw conductivity counts to S m-1 for CTDPF instruments (series
+    C, K, and L).
 
-        This data product is derived from SBE 52MP instruments and applies to
-        CTDPF instruments, C,K,L series.
+    Parameters
+    ----------
+    c0 : array_like
+        Raw conductivity (CONDWAT_L0) [counts].
 
-    Implemented by:
+    Returns
+    -------
+    c : ndarray
+        Sea water conductivity (CONDWAT_L1) [S m-1].
 
-        2014-02-17: Russell Desiderio. Initial Code
-
-    Usage:
-
-        c = ctd_sbe52mp_condwat(c0)
-
-            where
-
-        c = sea water conductivity (CONDWAT_L1) [S m-1]
-        c0 = sea water conductivity (CONDWAT_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Conductivity. Document
-            Control Number 1341-00030. https://alfresco.oceanobservatories.org/
-            (See: Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf)
-   """
+    References
+    ----------
+    OOI (2012). Data Product Specification for Conductivity.
+        Document Control Number 1341-00030. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
+    """
 
     c_mmho_cm = c0 / 10000.0 - 0.5
     c_S_m = 0.1 * c_mmho_cm
@@ -665,36 +603,30 @@ def ctd_sbe52mp_condwat(c0):
 
 def ctd_pracsal(c, t, p):
     """
-    Description:
+    Compute practical salinity (PRACSAL_L2) from conductivity, temperature, and pressure.
 
-        OOI Level 2 Practical Salinity core data product, which is calculated
-        using the Thermodynamic Equations of Seawater - 2010 (TEOS-10) Version
-        3.0, with data from the conductivity, temperature and depth (CTD)
-        family of instruments.
+    Calculates practical salinity (PSS-78) using the TEOS-10 Gibbs Seawater
+    (GSW) library from L1 CTD data products.
 
-    Implemented by:
+    Parameters
+    ----------
+    c : array_like
+        Sea water conductivity (CONDWAT_L1) [S m-1].
+    t : array_like
+        Sea water temperature (TEMPWAT_L1) [deg_C].
+    p : array_like
+        Sea water pressure (PRESWAT_L1) [dbar].
 
-        2013-03-13: Christopher Wingard. Initial code.
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-        2023-08-15: Samuel Dahlberg. Replaced incompatible pygsw with GSW library.
+    Returns
+    -------
+    SP : ndarray
+        Practical salinity, PSS-78 (PRACSAL_L2) [unitless].
 
-    Usage:
-
-        SP = ctd_pracsal(c, t, p)
-
-            where
-
-        SP = practical salinity, PSS-78, (PRACSAL_L2) [unitless]
-        c = sea water conductivity (CONDWAT_L1) [S m-1]
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        p = sea water pressure (PRESWAT_L1) [dbar]
-    References:
-
-        OOI (2012). Data Product Specification for Salinty. Document Control
-            Number 1341-00040. https://alfresco.oceanobservatories.org/ (See: 
-            Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00040_Data_Product_SPEC_PRACSAL_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Salinity.
+        Document Control Number 1341-00040. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00040_Data_Product_SPEC_PRACSAL_OOI.pdf
     """
 
     # Convert L1 Conductivity from S/m to mS/cm
@@ -707,41 +639,34 @@ def ctd_pracsal(c, t, p):
 
 def ctd_density(SP, t, p, lat, lon):
     """
-    Description:
+    Compute sea water density (DENSITY_L2) from salinity, temperature, and pressure.
 
-        OOI Level 2 Density core data product, which is calculated using the
-        Thermodynamic Equations of Seawater - 2010 (TEOS-10) Version 3.0, with
-        data from the conductivity, temperature and depth (CTD) family of
-        instruments.
+    Calculates in-situ density using the TEOS-10 Gibbs Seawater (GSW) library
+    via absolute salinity and conservative temperature.
 
-    Implemented by:
+    Parameters
+    ----------
+    SP : array_like
+        Practical salinity, PSS-78 (PRACSAL_L2) [unitless].
+    t : array_like
+        Sea water temperature (TEMPWAT_L1) [deg_C].
+    p : array_like
+        Sea water pressure (PRESWAT_L1) [dbar].
+    lat : array_like
+        Latitude of measurement [decimal degrees N].
+    lon : array_like
+        Longitude of measurement [decimal degrees E].
 
-        2013-03-11: Christopher Mueller. Initial code.
-        2013-03-13: Christopher Wingard. Added commenting and moved to
-            ctd_functions
-        2013-05-10: Christopher Wingard. Minor edits to comments.
-        2014-01-31: Russell Desiderio. Standardized comment format.
-        2023-08-15: Samuel Dahlberg. Replaced incompatible pygsw with GSW library.
+    Returns
+    -------
+    rho : ndarray
+        Sea water density (DENSITY_L2) [kg m-3].
 
-    Usage:
-
-        rho = ctd_density(SP, t, p, lat, lon)
-
-            where
-
-        rho = sea water density (DENSITY_L2) [kg m-3]
-        SP = practical salinity PSS-78 (PRACSAL_L2) [unitless]
-        t = sea water temperature (TEMPWAT_L1) [deg_C]
-        p = sea water pressure (PRESWAT_L1) [dbar]
-        lat = latitude where input data was collected [decimal degree]
-        lon = longitude where input data was collected [decimal degree]
-
-    References:
-
-        OOI (2012). Data Product Specification for Density. Document Control
-            Number 1341-00050. https://alfresco.oceanobservatories.org/ (See:
-            Company Home >> OOI >> Controlled >> 1000 System Level >>
-            1341-00050_Data_Product_SPEC_DENSITY_OOI.pdf)
+    References
+    ----------
+    OOI (2012). Data Product Specification for Density.
+        Document Control Number 1341-00050. [Legacy document, archived]
+        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00050_Data_Product_SPEC_DENSITY_OOI.pdf
     """
     # Calculate the density [kg m-3]
     sa = gsw.SA_from_SP(SP, p, lon, lat)  # absolute salinity
