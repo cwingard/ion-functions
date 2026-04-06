@@ -37,12 +37,6 @@ def ctd_sbe16plus_tempwat(t0, a0, a1, a2, a3):
     -------
     t : ndarray
         Sea water temperature (TEMPWAT_L1) [deg_C].
-
-    References
-    ----------
-    OOI (2012). Data Product Specification for Water Temperature.
-        Document Control Number 1341-00010. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     mv = (t0 - 524288) / 1.6e7
@@ -80,12 +74,6 @@ def ctd_sbe37im_tempwat_instrument_recovered(t0, a0, a1, a2, a3):
     Notes
     -----
     This algorithm was not included in the TEMPWAT DPS as of June 2016.
-
-    References
-    ----------
-    OOI (2012). Data Product Specification for Water Temperature.
-        Document Control Number 1341-00010. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = 1 / (a0 + a1 * np.log(t0) + a2 * np.log(t0)**2 + a3 * np.log(t0)**3) - 273.15
@@ -109,12 +97,6 @@ def ctd_sbe37im_tempwat(t0):
     -------
     t : ndarray
         Sea water temperature (TEMPWAT_L1) [deg_C].
-
-    References
-    ----------
-    OOI (2012). Data Product Specification for Water Temperature.
-        Document Control Number 1341-00010. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = t0 / 10000.0 - 10.0
@@ -137,12 +119,6 @@ def ctd_sbe52mp_tempwat(t0):
     -------
     t : ndarray
         Sea water temperature (TEMPWAT_L1) [deg_C].
-
-    References
-    ----------
-    OOI (2012). Data Product Specification for Water Temperature.
-        Document Control Number 1341-00010. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00010_Data_Product_SPEC_TEMPWAT_OOI.pdf
     """
 
     t = t0 / 10000.0 - 5.0
@@ -197,11 +173,6 @@ def ctd_sbe16plus_preswat(p0, t0, ptempa0, ptempa1, ptempa2,
     p_dbar : ndarray
         Sea water pressure (PRESWAT_L1) [dbar].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute calibration parameters
     tv = t0 / 13107.0
@@ -255,11 +226,6 @@ def ctd_sbe16digi_preswat(p0, t0, C1, C2, C3, D1, D2, T1, T2, T3, T4, T5):
     p_dbar : ndarray
         Sea water pressure (PRESWAT_L1) [dbar].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # Convert raw pressure input to frequency [Hz]
     pf = p0 / 256.0
@@ -334,11 +300,6 @@ def ctd_sbe37im_preswat_instrument_recovered(p0, pt0, ptempa0, ptempa1, ptempa2,
     -----
     This algorithm was not included in the PRESWAT DPS as of June 2016.
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute calibration parameters
     t = ptempa0 + ptempa1 * pt0 + ptempa2 * pt0**2
@@ -371,11 +332,6 @@ def ctd_sbe37im_preswat(p0, p_range_psia):
     p_dbar : ndarray
         Sea water pressure (PRESWAT_L1) [dbar].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
     # compute pressure range in units of dbar
     p_range_dbar = (p_range_psia - 14.7) * 0.6894757
@@ -402,11 +358,6 @@ def ctd_glider_preswat(pr_bar):
     pr_dbar : ndarray
         Sea water pressure (PRESWAT_L1) [dbar].
 
-    References
-    ----------
-    OOI (2015). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
 
     pr_dbar = pr_bar * 10.0
@@ -430,11 +381,6 @@ def ctd_sbe52mp_preswat(p0):
     p_dbar : ndarray
         Sea water pressure (PRESWAT_L1) [dbar].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Pressure (Depth).
-        Document Control Number 1341-00020. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00020_Data_Product_SPEC_PRESWAT_OOI.pdf
     """
 
     p_dbar = p0 / 100.0 - 10.0
@@ -475,11 +421,6 @@ def ctd_sbe16plus_condwat(c0, t1, p1, g, h, i, j, cpcor, ctcor):
     c : ndarray
         Sea water conductivity (CONDWAT_L1) [S m-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Conductivity.
-        Document Control Number 1341-00030. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
     # convert raw conductivity measurement to frequency
     f = (c0 / 256.0) / 1000.0
@@ -529,11 +470,6 @@ def ctd_sbe37im_condwat_instrument_recovered(c0, t1, p1, g, h, i, j, cpcor, ctco
     -----
     This algorithm was not included in the CONDWAT DPS as of June 2016.
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Conductivity.
-        Document Control Number 1341-00030. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
     # convert raw conductivity measurement to frequency
     f = (c0 / 256.0) / 1000.0 * np.sqrt(1.0 + wbotc * t1)
@@ -561,11 +497,6 @@ def ctd_sbe37im_condwat(c0):
     c : ndarray
         Sea water conductivity (CONDWAT_L1) [S m-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Conductivity.
-        Document Control Number 1341-00030. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
 
     c = c0 / 100000.0 - 0.5
@@ -589,11 +520,6 @@ def ctd_sbe52mp_condwat(c0):
     c : ndarray
         Sea water conductivity (CONDWAT_L1) [S m-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Conductivity.
-        Document Control Number 1341-00030. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00030_Data_Product_SPEC_CONDWAT_OOI.pdf
     """
 
     c_mmho_cm = c0 / 10000.0 - 0.5
@@ -622,11 +548,6 @@ def ctd_pracsal(c, t, p):
     SP : ndarray
         Practical salinity, PSS-78 (PRACSAL_L2) [unitless].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Salinity.
-        Document Control Number 1341-00040. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00040_Data_Product_SPEC_PRACSAL_OOI.pdf
     """
 
     # Convert L1 Conductivity from S/m to mS/cm
@@ -662,11 +583,6 @@ def ctd_density(SP, t, p, lat, lon):
     rho : ndarray
         Sea water density (DENSITY_L2) [kg m-3].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Density.
-        Document Control Number 1341-00050. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00050_Data_Product_SPEC_DENSITY_OOI.pdf
     """
     # Calculate the density [kg m-3]
     sa = gsw.SA_from_SP(SP, p, lon, lat)  # absolute salinity

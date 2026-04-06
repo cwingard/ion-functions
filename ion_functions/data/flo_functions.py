@@ -53,17 +53,8 @@ def flo_bback_total(beta, degC, psu, theta, wlngth, xfactor):
     Most FLORD/FLORT instruments measure backscatter at 700 nm. The chi
     factor is the scaling factor relating particulate scattering at angle
     theta to the total particulate backscatter integrated over all backward
-    angles. Extended background is on the docs site.
-
-    References
-    ----------
-    OOI (2012). Data Product Specification for Optical Backscatter.
-        Document Control Number 1341-00540. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf
-
-    Sullivan, J.M., M.S. Twardowski, J.R.V. Zaneveld, and C.C. Moore (2013).
-        Measuring optical backscattering in water. Chapter 6 in Light
-        Scattering Reviews 7, pp 189-224.
+    angles. See the [Background](flo_functions.md#background) and
+    [References](flo_functions.md#references) sections for full details.
     """
     # calculate:
     #    betasw, the theoretical value of the volume scattering function for seawater only
@@ -123,11 +114,6 @@ def flo_scat_seawater(degC, psu, theta, wlngth, delta=0.039):
     bsw : ndarray
         Total scattering coefficient of pure seawater [m-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Optical Backscatter.
-        Document Control Number 1341-00540. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf
     """
     _, bsw = flo_zhang_scatter_coeffs(degC, psu, theta, wlngth, delta)
     return bsw
@@ -162,11 +148,6 @@ def flo_zhang_scatter_coeffs(degC, psu, theta, wlngth, delta=0.039):
     bsw : ndarray
         Total scattering coefficient of pure seawater [m-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Optical Backscatter.
-        Document Control Number 1341-00540. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf
     """
     # values of the constants
     Na = 6.0221417930e23    # Avogadro's constant
@@ -396,12 +377,6 @@ def flo_chla(counts_output, counts_dark, scale_factor):
     chla_conc : ndarray
         Fluorometric chlorophyll-a concentration (CHLAFLO_L1) [ug L-1].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Fluorometric Chlorophyll-a
-        Concentration. Document Control Number 1341-00530.
-        [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00530_Data_Product_SPEC_CHLAFLO_OOI.pdf
     """
     chla_conc = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return chla_conc
@@ -429,12 +404,6 @@ def flo_cdom(counts_output, counts_dark, scale_factor):
     cdom_conc : ndarray
         Fluorometric CDOM concentration (CDOMFLO_L1) [ppb].
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Fluorometric CDOM
-        Concentration. Document Control Number 1341-00550.
-        [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2014/04/1341-00550_Data_Product_SPEC_CDOMFLO_OOI.pdf
     """
     cdom_conc = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return cdom_conc
@@ -468,11 +437,6 @@ def flo_beta(counts_output, counts_dark, scale_factor):
     --------
     flo_bback_total : Converts FLUBSCT_L1 to total backscatter (FLUBSCT_L2).
 
-    References
-    ----------
-    OOI (2012). Data Product Specification for Optical Backscatter.
-        Document Control Number 1341-00540. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2015/10/1341-00540_Data_Product_SPEC_FLUBSCT_OOI.pdf
     """
     beta = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return beta

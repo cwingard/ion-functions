@@ -75,12 +75,6 @@ def hyd_lf_acoustic_pwaves(raw, gain=3.2):
     -------
     hydaplf : ndarray
         Time-series of low frequency acoustic pressure waves (HYDAPLF_L1) [V].
-
-    References
-    ----------
-    OOI (2013). Data Product Specification for Low Frequency Acoustic Pressure
-        Waves. Document Control Number 1341-00821. [Legacy document, archived]
-        https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00821_Data_Product_SPEC_HYDAPLF_OOI.pdf
     """
     # apply the gain correction to convert the signal from counts to V
     gain = gain * 1.0e-6
