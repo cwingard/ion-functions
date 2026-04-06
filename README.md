@@ -7,7 +7,7 @@ ion-functions transforms raw instrument data (L0) into calibrated scientific
 data products at L1 and L2 levels, covering CTD, ADCP, velocity, dissolved
 oxygen, CO2, fluorometry, pH, pressure, meteorology, and more.
 
-**Documentation:** https://cwingard.github.io/ion-functions/
+**Documentation:** https://oceanobservatories.github.io/ion-functions/
 
 ## Installation
 
