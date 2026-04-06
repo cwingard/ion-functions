@@ -6,6 +6,8 @@ repo_name: oceanobservatories/ion-functions
 
 theme:
   name: material
+  logo: assets/NSF-OOI-RGB.png
+  favicon: assets/NSF-OOI-RGB.png
   palette:
     - scheme: default
       primary: blue
