@@ -1,9 +1,9 @@
-name: Deploy docs to GitHub Pages
+name: Deploy docs preview to GitHub Pages
 
 on:
   push:
     branches:
-      - master
+      - documentation
   workflow_dispatch:
 
 permissions:
@@ -27,4 +27,4 @@ jobs:
         run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
 
       - name: Deploy
-        run: mkdocs gh-deploy --force
+        run: mkdocs gh-deploy --force --site-url https://cwingard.github.io/ion-functions/
