@@ -1,0 +1,12 @@
+/* Allow table cells to wrap rather than force horizontal scrolling */
+td, th {
+    white-space: normal !important;
+    word-break: break-word;
+}
+
+/* White background for transparent logo PNG */
+.wy-side-nav-search a img.logo {
+    background-color: #ffffff;
+    padding: 4px;
+    border-radius: 2px;
+}

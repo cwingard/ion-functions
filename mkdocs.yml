@@ -11,6 +11,9 @@ theme:
     - python
   logo: assets/NSF-OOI-RGB.png
 
+extra_css:
+  - assets/custom.css
+
 markdown_extensions:
   - toc:
       toc_depth: 3
