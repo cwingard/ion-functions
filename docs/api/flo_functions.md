@@ -160,19 +160,20 @@ combined seawater and particulate contribution to the backscatter coefficient.
 
 ::: ion_functions.data.flo_functions.flo_bback_total
 
-#### History
-
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_bback_total` | 2013-07-16 | Christopher Wingard | Initial implementation |
-| `flo_bback_total` | 2014-04-23 | Christopher Wingard | Revisions to address integration issues and meet intent of DPS |
-| `flo_bback_total` | 2015-10-26 | Russell Desiderio | Removed default values from argument list; revised documentation; added Notes |
-
 #### Additional Notes
 
 Instrument-specific values for the backscatter angle (θ) and chi factor (χ)
 are given in the [Background](#background) section of this page, along with
 instrument classification notes and the definition of "total" as used here.
+
+#### History
+
+| Date | Author | Change |
+|---|---|---|
+| 2013-07-16 | Christopher Wingard | Initial implementation |
+| 2014-04-23 | Christopher Wingard | Revisions to address integration issues and meet intent of DPS |
+| 2015-10-26 | Russell Desiderio | Removed default values from argument list; revised documentation; added Notes |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -180,20 +181,14 @@ instrument classification notes and the definition of "total" as used here.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_scat_seawater` | 2014-04-24 | Christopher Wingard | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-04-24 | Christopher Wingard | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
 ::: ion_functions.data.flo_functions.flo_zhang_scatter_coeffs
-
-#### History
-
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_zhang_scatter_coeffs` | 2013-07-15 | Christopher Wingard | Initial implementation |
-| `flo_zhang_scatter_coeffs` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
 
 #### Additional Notes
 
@@ -206,16 +201,17 @@ Quan and Fry, 1994), `flo_isotherm_compress` (Lepple and Millero, 1971; Millero,
 density derivative of the refractive index uses the PMH molecular scattering
 theory model.
 
+#### History
+
+| Date | Author | Change |
+|---|---|---|
+| 2013-07-15 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
+
 ---
 
 ::: ion_functions.data.flo_functions.flo_refractive_index
-
-#### History
-
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_refractive_index` | 2014-02-21 | Christopher Wingard | Initial implementation |
-| `flo_refractive_index` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
 
 #### Additional Notes
 
@@ -224,16 +220,17 @@ the empirical equations of Quan and Fry (1994). The returned `nsw` is the
 absolute seawater refractive index (seawater relative to vacuum); `dnds` is
 the partial derivative of `nsw` with respect to salinity.
 
+#### History
+
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-21 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
+
 ---
 
 ::: ion_functions.data.flo_functions.flo_isotherm_compress
-
-#### History
-
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_isotherm_compress` | 2014-02-21 | Christopher Wingard | Initial implementation |
-| `flo_isotherm_compress` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
 
 #### Additional Notes
 
@@ -241,16 +238,17 @@ Pure water secant bulk modulus from Millero (1980). The estimated error in the
 computed isothermal compressibility is ±0.004×10⁻⁶ bar⁻¹ (Lepple and Millero,
 1971, pp. 10–11).
 
+#### History
+
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-21 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
+
 ---
 
 ::: ion_functions.data.flo_functions.flo_density_seawater
-
-#### History
-
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_density_seawater` | 2014-02-21 | Christopher Wingard | Initial implementation |
-| `flo_density_seawater` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
 
 #### Additional Notes
 
@@ -258,16 +256,25 @@ Uses the UNESCO (1981) equation of state for seawater. This is the legacy
 formulation specified by Zhang et al. (2009) and is distinct from the
 GSW/TEOS-10 library used for `ctd_pracsal` and `ctd_density`.
 
+#### History
+
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-21 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
+
 ---
 
 ::: ion_functions.data.flo_functions.flo_scale_and_offset
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_scale_and_offset` | 2014-01-30 | Craig Risien | Initial implementation |
-| `flo_scale_and_offset` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| Date | Author | Change |
+|---|---|---|
+| 2014-01-30 | Craig Risien | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ## OOI System Interface
 
@@ -288,9 +295,10 @@ and, by extension, primary productivity in the water column. See the
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_chla` | 2014-01-30 | Craig Risien | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-01-30 | Craig Risien | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -307,9 +315,10 @@ section for calibration context and known limitations.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_cdom` | 2014-01-30 | Craig Risien | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-01-30 | Craig Risien | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -327,10 +336,11 @@ section for instrument-specific θ and χ values.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `flo_beta` | 2014-01-30 | Craig Risien | Initial implementation |
-| `flo_beta` | 2015-10-23 | Russell Desiderio | Revised documentation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-01-30 | Craig Risien | Initial implementation |
+| 2015-10-23 | Russell Desiderio | Revised documentation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ## References
 

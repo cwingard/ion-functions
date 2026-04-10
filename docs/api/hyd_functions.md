@@ -85,10 +85,11 @@ sheet; that step is outside the scope of these functions.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `hyd_bb_acoustic_pwaves` | 2014-05-16 | Christopher Wingard | Initial implementation |
-| `hyd_bb_acoustic_pwaves` | 2023-08-15 | Samuel Dahlberg | Removed numexpr; updated variable names |
+| Date | Author | Change |
+|---|---|---|
+| 2014-05-16 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr; updated variable names |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -96,10 +97,11 @@ sheet; that step is outside the scope of these functions.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `hyd_lf_acoustic_pwaves` | 2014-07-09 | Christopher Wingard | Initial implementation |
-| `hyd_lf_acoustic_pwaves` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| Date | Author | Change |
+|---|---|---|
+| 2014-07-09 | Christopher Wingard | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ## References
 

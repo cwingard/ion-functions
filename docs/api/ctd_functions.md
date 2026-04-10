@@ -239,13 +239,14 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe16plus_tempwat` | 2013-04-12 | Luke Campbell | Initial implementation |
-| `ctd_sbe16plus_tempwat` | 2013-04-12 | Christopher Wingard | Minor edits |
-| `ctd_sbe16plus_tempwat` | 2013-05-10 | Christopher Wingard | Minor comment edits |
-| `ctd_sbe16plus_tempwat` | 2014-01-31 | Russell Desiderio | Standardized comment format |
-| `ctd_sbe16plus_tempwat` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| Date | Author | Change |
+|---|---|---|
+| 2013-04-12 | Luke Campbell | Initial implementation |
+| 2013-04-12 | Christopher Wingard | Minor edits |
+| 2013-05-10 | Christopher Wingard | Minor comment edits |
+| 2014-01-31 | Russell Desiderio | Standardized comment format |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -253,10 +254,11 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_tempwat_instrument_recovered` | 2016-06-16 | Russell Desiderio | Initial implementation |
-| `ctd_sbe37im_tempwat_instrument_recovered` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| Date | Author | Change |
+|---|---|---|
+| 2016-06-16 | Russell Desiderio | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -264,9 +266,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_tempwat` | 2014-02-05 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-05 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -274,9 +277,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe52mp_tempwat` | 2014-02-17 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-17 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -284,12 +288,13 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe16plus_preswat` | 2013-04-12 | Christopher Wingard | Initial implementation |
-| `ctd_sbe16plus_preswat` | 2013-05-10 | Christopher Wingard | Minor comment edits |
-| `ctd_sbe16plus_preswat` | 2014-01-31 | Russell Desiderio | Standardized comment format |
-| `ctd_sbe16plus_preswat` | 2017-03-31 | Dan Mergens | Added Druck sensor offset correction |
+| Date | Author | Change |
+|---|---|---|
+| 2013-04-12 | Christopher Wingard | Initial implementation |
+| 2013-05-10 | Christopher Wingard | Minor comment edits |
+| 2014-01-31 | Russell Desiderio | Standardized comment format |
+| 2017-03-31 | Dan Mergens | Added Druck sensor offset correction |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -297,10 +302,11 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe16digi_preswat` | 2013-05-10 | Christopher Wingard | Initial implementation |
-| `ctd_sbe16digi_preswat` | 2014-01-31 | Russell Desiderio | Standardized comment format; switched from pressure counts to pressure [Hz] per SBE 16Plus V2 manual p. 57 item 5 |
+| Date | Author | Change |
+|---|---|---|
+| 2013-05-10 | Christopher Wingard | Initial implementation |
+| 2014-01-31 | Russell Desiderio | Standardized comment format; switched from pressure counts to pressure [Hz] per SBE 16Plus V2 manual p. 57 item 5 |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -308,9 +314,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_preswat_instrument_recovered` | 2016-06-16 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2016-06-16 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -318,9 +325,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_preswat` | 2014-02-05 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-05 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -328,9 +336,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_glider_preswat` | 2015-10-28 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2015-10-28 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -338,9 +347,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe52mp_preswat` | 2014-02-17 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-17 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -348,11 +358,12 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe16plus_condwat` | 2013-04-12 | Christopher Wingard | Initial implementation |
-| `ctd_sbe16plus_condwat` | 2013-05-10 | Christopher Wingard | Minor comment edits |
-| `ctd_sbe16plus_condwat` | 2014-01-31 | Russell Desiderio | Standardized comment format |
+| Date | Author | Change |
+|---|---|---|
+| 2013-04-12 | Christopher Wingard | Initial implementation |
+| 2013-05-10 | Christopher Wingard | Minor comment edits |
+| 2014-01-31 | Russell Desiderio | Standardized comment format |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -360,10 +371,11 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_condwat_instrument_recovered` | 2016-06-16 | Russell Desiderio | Initial implementation |
-| `ctd_sbe37im_condwat_instrument_recovered` | 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| Date | Author | Change |
+|---|---|---|
+| 2016-06-16 | Russell Desiderio | Initial implementation |
+| 2023-08-15 | Samuel Dahlberg | Removed numexpr |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -371,9 +383,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe37im_condwat` | 2014-02-05 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-05 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -381,9 +394,10 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_sbe52mp_condwat` | 2014-02-17 | Russell Desiderio | Initial implementation |
+| Date | Author | Change |
+|---|---|---|
+| 2014-02-17 | Russell Desiderio | Initial implementation |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -391,12 +405,13 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_pracsal` | 2013-03-13 | Christopher Wingard | Initial implementation |
-| `ctd_pracsal` | 2013-05-10 | Christopher Wingard | Minor comment edits |
-| `ctd_pracsal` | 2014-01-31 | Russell Desiderio | Standardized comment format |
-| `ctd_pracsal` | 2023-08-15 | Samuel Dahlberg | Replaced pygsw with GSW library |
+| Date | Author | Change |
+|---|---|---|
+| 2013-03-13 | Christopher Wingard | Initial implementation |
+| 2013-05-10 | Christopher Wingard | Minor comment edits |
+| 2014-01-31 | Russell Desiderio | Standardized comment format |
+| 2023-08-15 | Samuel Dahlberg | Replaced pygsw with GSW library |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ---
 
@@ -404,13 +419,14 @@ dominated by pressure uncertainty at depth.
 
 #### History
 
-| Function | Date | Author | Change |
-|---|---|---|---|
-| `ctd_density` | 2013-03-11 | Christopher Mueller | Initial implementation |
-| `ctd_density` | 2013-03-13 | Christopher Wingard | Added commenting; moved to ctd_functions |
-| `ctd_density` | 2013-05-10 | Christopher Wingard | Minor comment edits |
-| `ctd_density` | 2014-01-31 | Russell Desiderio | Standardized comment format |
-| `ctd_density` | 2023-08-15 | Samuel Dahlberg | Replaced pygsw with GSW library |
+| Date | Author | Change |
+|---|---|---|
+| 2013-03-11 | Christopher Mueller | Initial implementation |
+| 2013-03-13 | Christopher Wingard | Added commenting; moved to ctd_functions |
+| 2013-05-10 | Christopher Wingard | Minor comment edits |
+| 2014-01-31 | Russell Desiderio | Standardized comment format |
+| 2023-08-15 | Samuel Dahlberg | Replaced pygsw with GSW library |
+| 2026-04-10 | Christopher Wingard | Converted to NumPy docstring format; updated documentation |
 
 ## References
 
@@ -428,5 +444,3 @@ Document Control Number 1341-00040.](https://oceanobservatories.org/wp-content/u
 
 [OOI (2012). Data Product Specification for Density.
 Document Control Number 1341-00050.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00050_Data_Product_SPEC_DENSITY_OOI.pdf)
-
-

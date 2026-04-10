@@ -9,7 +9,7 @@ theme:
   highlightjs: true
   hljs_languages:
     - python
-  logo: docs/assets/NSF-OOI-RGB.png
+  logo: assets/NSF-OOI-RGB.png
 
 markdown_extensions:
   - toc:
