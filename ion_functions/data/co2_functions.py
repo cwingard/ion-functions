@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 """
-@package ion_functions.data.pco2_functions
-@file ion_functions/data/pco2_functions.py
-@author Christopher Wingard
-@brief Module containing CO2 instrument family related functions
+Functions for the OOI CO2 instrument families: SAMI-II PCO2W (pCO2 in seawater)
+and PCO2A (pCO2 in air and surface seawater). Produces CO2THRM_L1, PCO2WAT_L1,
+PCO2ATM_L1, PCO2SSW_L1, and CO2FLUX_L2 data products.
 """
 
 import numpy as np
@@ -14,33 +13,11 @@ from ion_functions.utils import fill_value
 # and process these extracted parameters to calculate pCO2
 def pco2_abs434_ratio(light):
     """
-    Description:
+    OOI single-output wrapper for CO2ABS1_L0. Returns absorbance ratio at 434 nm [unitless].
 
-        Extract the absorbance ratio at 434 nm from the pCO2 instrument light
-        measurements. This will extract the CO2ABS1_L0 data product from the
-        instrument light measurement arrays.
-
-    Implemented by:
-
-        2013-04-20: Christopher Wingard. Initial code.
-        2014-02-19: Christopher Wingard. Updated comments.
-
-    Usage:
-
-        a434ratio = pco2_abs434_ratio(light)
-
-            where
-
-        a434ratio = optical absorbance Ratio at 434 nm (CO2ABS1_L0) [unitless]
-        light = array of light measurements
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    See Also
+    --------
+    pco2_calc_pco2 : Core pCO2 algorithm; accepts the full light array directly.
     """
     light = np.atleast_2d(light)
     a434ratio = light[:, 6]
@@ -49,33 +26,11 @@ def pco2_abs434_ratio(light):
 
 def pco2_abs620_ratio(light):
     """
-    Description:
+    OOI single-output wrapper for CO2ABS2_L0. Returns absorbance ratio at 620 nm [unitless].
 
-        Extract the absorbance ratio at 620 nm from the pCO2 instrument light
-        measurements. This will extract the CO2ABS2_L0 data product from the
-        instrument light measurement arrays.
-
-    Implemented by:
-
-        2013-04-20: Christopher Wingard. Initial code.
-        2014-02-19: Christopher Wingard. Updated comments.
-
-    Usage:
-
-        a620ratio = pco2_abs620_ratio(light)
-
-            where
-
-        a620ratio = optical absorbance Ratio at 620 nm (CO2ABS2_L0) [unitless]
-        light = array of light measurements
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    See Also
+    --------
+    pco2_calc_pco2 : Core pCO2 algorithm; accepts the full light array directly.
     """
     light = np.atleast_2d(light)
     a620ratio = light[:, 7]
@@ -84,36 +39,23 @@ def pco2_abs620_ratio(light):
 
 def pco2_blank(raw_blank):
     """
-    Description:
+    Normalize raw SAMI-II blank counts to a dimensionless absorbance blank.
 
-        Calculates the absorbance blank at 434 or 620 nm from the SAMI2-pCO2
-        instrument.
+    Parameters
+    ----------
+    raw_blank : array_like
+        Raw optical absorbance blank at 434 or 620 nm [counts].
 
-    Implemented by:
+    Returns
+    -------
+    blank : ndarray
+        Normalized optical absorbance blank at 434 or 620 nm [unitless].
 
-        2013-04-20: Christopher Wingard. Initial code.
-        2014-02-19: Christopher Wingard. Updated comments.
-        2014-02-28: Christopher Wingard. Updated to except raw blank values
-                    from a sparse array.
-        2018-03-04: Christopher Wingard. Updated to correctly calculate the
-                    blank based on new code from the vendor.
-
-    Usage:
-
-        blank = pco2_blank(raw_blank)
-
-            where
-
-        blank = optical absorbance blank at 434 or 620 nm [unitless]
-        raw_blank = raw optical absorbance blank at 434 or 620 nm [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    Notes
+    -----
+    Divides raw counts by 16384 (2^14), the full-scale ADC value used by the
+    SAMI-II for the absorbance ratio channels. The result is a [0, 1] scale
+    factor used in the blank correction applied in `pco2_calc_pco2`.
     """
     blank = raw_blank / 16384.
     return blank
@@ -121,36 +63,28 @@ def pco2_blank(raw_blank):
 
 def pco2_thermistor(traw, sami_bits=12):
     """
-    Description:
+    Convert raw SAMI-II thermistor counts to temperature for CO2THRM_L1.
 
-        Convert the thermistor data from counts to degrees Centigrade from the
-        pCO2 instrument.
+    Parameters
+    ----------
+    traw : array_like
+        Raw thermistor temperature (CO2THRM_L0) [counts].
+    sami_bits : int or array_like, optional
+        ADC bit depth of the SAMI hardware: 12 for original hardware,
+        14 for newer hardware variants. Default is 12.
 
-    Implemented by:
+    Returns
+    -------
+    therm : ndarray
+        Thermistor temperature (CO2THRM_L1) [degC].
 
-        2013-04-20: Christopher Wingard. Initial code.
-        2014-02-19: Christopher Wingard. Updated comments.
-        2023-01-12: Mark Steiner. Add sami_bits arg to handle hardware upgrades
-        2023-08-15: Samuel Dahlberg. Renamed local variables to follow naming convention.
-                    Replaced use of Numexpr with Numpy.
-
-    Usage:
-
-        therm = pco2_thermistor(traw, sami_bits)
-
-            where
-
-        therm = converted thermistor temperature [degC]
-        traw = raw thermistor temperature (CO2THRM_L0) [counts]
-        sami_bits = number of bits on the SAMI hardware
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    Notes
+    -----
+    Applies a Steinhart-Hart thermistor equation:
+    1/T = A + B*ln(R) + C*(ln(R))^3, where T is absolute temperature [K] and
+    R is the thermistor resistance computed from the raw count relative to a
+    17.4 kOhm reference resistor. The 12-bit SAMI uses a 4096-count full scale;
+    the 14-bit uses 16384 counts.
     """
     # reset inputs to arrays
     traw = np.atleast_1d(traw)
@@ -169,24 +103,20 @@ def pco2_thermistor(traw, sami_bits=12):
 
 def pco2_battery(braw, sami_bits):
     """
-    Description:
+    Convert raw SAMI-II battery counts to battery voltage.
 
-        Convert the battery voltage data from counts to volts from the
-        pCO2 instrument.
+    Parameters
+    ----------
+    braw : array_like
+        Raw battery voltage [counts].
+    sami_bits : int or array_like
+        ADC bit depth of the SAMI hardware: 12 for original hardware,
+        14 for newer hardware variants.
 
-    Implemented by:
-
-        2023-02-23: Mark Steiner. Initial code.
-
-    Usage:
-
-        volts = pco2_battery_voltage(vraw, sami_bits)
-
-            where
-
-        volts = converted battery voltage [degC]
-        braw = raw battery voltage [counts]
-        sami_bits = number of bits on the SAMI hardware
+    Returns
+    -------
+    volts : ndarray
+        Battery voltage [V].
     """
     # reset inputs to arrays
     braw = np.atleast_1d(braw)
@@ -203,51 +133,11 @@ def pco2_battery(braw, sami_bits):
 def pco2_pco2wat(mtype, light, therm, ea434, eb434, ea620, eb620,
                  calt, cala, calb, calc, a434blank, a620blank):
     """
-    Description:
+    OOI single-output wrapper for PCO2WAT_L1. Returns pCO2 in seawater [uatm].
 
-        Function to calculate the L1 PCO2WAT core data from the pCO2 instrument
-        if the measurement type is 4 (pCO2 measurement), otherwise it is a
-        blank and return a fill value.
-
-    Implemented by:
-
-        2013-04-20: Christopher Wingard. Initial code.
-        2014-02-19: Christopher Wingard. Updated comments.
-        2014-03-19: Christopher Wingard. Optimized using feedback provided by
-                    Chris Fortin.
-        2017-04-04: Pete Cable. Updated algorithm to use thermistor/blank counts
-                    as indicated in the DPS and the usage below.
-
-    Usage:
-
-        pco2 = pco2_pco2wat(mtype, light, therm, ea434, eb434, ea620, eb620,
-                            calt, cala, calb, calc, a434blank, a620blank)
-
-            where
-
-        pco2 = measured pco2 in seawater (PCO2WAT_L1) [uatm]
-        mtype = measurement type, where 4 == actual measurement and 5 == a
-            blank measurement [unitless]
-        light = array of light measurements
-        therm = PCO2W thermistor temperature (CO2THRM_L0) [counts]
-        ea434 = Reagent specific calibration coefficient
-        eb434 = Reagent specific calibration coefficient
-        ea620 = Reagent specific calibration coefficient
-        eb620 = Reagent specific calibration coefficient
-        calt = Instrument specific calibration coefficient for temperature
-        cala = Instrument specific calibration coefficient for the pCO2 measurements
-        calb = Instrument specific calibration coefficient for the pCO2 measurements
-        calc = Instrument specific calibration coefficient for the pCO2 measurements
-        a434blank = Blank measurements at 434 nm (CO2ABS1_L0) [counts]
-        a620blank = Blank measurements to 620 nm (CO2ABS2_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    See Also
+    --------
+    pco2_calc_pco2 : Core algorithm; use directly for full pCO2 calculation.
     """
     # reset inputs to arrays
     # measurements
@@ -282,54 +172,57 @@ def pco2_pco2wat(mtype, light, therm, ea434, eb434, ea620, eb620,
 def pco2_calc_pco2(light, therm, ea434, eb434, ea620, eb620,
                    calt, cala, calb, calc, a434blank, a620blank):
     """
-    Description:
+    Compute partial pressure of CO2 in seawater (PCO2WAT_L1) from SAMI-II light measurements.
 
-        OOI Level 1 Partial Pressure of CO2 (pCO2) in seawater core data
-        product, which is calculated from the Sunburst SAMI-II CO2 instrument
-        (PCO2W).
+    Parameters
+    ----------
+    light : array_like, shape (N, 14)
+        Array of raw light measurements from the SAMI-II PCO2W instrument.
+        Column 6 contains the 434 nm absorbance ratio (CO2ABS1_L0);
+        column 7 contains the 620 nm absorbance ratio (CO2ABS2_L0) [counts].
+    therm : array_like
+        Thermistor temperature (CO2THRM_L0) [counts].
+    ea434 : array_like
+        Reagent-specific molar absorptivity coefficient at 434 nm. Not used in
+        the current (2018) vendor formulation; retained for API compatibility.
+    eb434 : array_like
+        Reagent-specific molar absorptivity coefficient at 434 nm (indicator
+        base form). Not used in the current formulation; retained for API
+        compatibility.
+    ea620 : array_like
+        Reagent-specific molar absorptivity coefficient at 620 nm. Not used in
+        the current formulation; retained for API compatibility.
+    eb620 : array_like
+        Reagent-specific molar absorptivity coefficient at 620 nm (indicator
+        base form). Not used in the current formulation; retained for API
+        compatibility.
+    calt : array_like
+        Instrument-specific calibration coefficient for temperature correction [degC].
+    cala : array_like
+        Instrument-specific calibration coefficient a for the pCO2 equation.
+    calb : array_like
+        Instrument-specific calibration coefficient b for the pCO2 equation.
+    calc : array_like
+        Instrument-specific calibration coefficient c for the pCO2 equation.
+    a434blank : array_like
+        Blank measurement at 434 nm from the most recent blank record [counts].
+    a620blank : array_like
+        Blank measurement at 620 nm from the most recent blank record [counts].
 
-    Implemented by:
+    Returns
+    -------
+    pco2 : ndarray
+        Partial pressure of CO2 in seawater (PCO2WAT_L1) [uatm].
 
-        20??-??-??: J. Newton (Sunburst Sensors, LLC). Original Matlab code.
-        2013-04-20: Christopher Wingard. Initial python code.
-        2014-02-19: Christopher Wingard. Updated comments.
-        2014-03-19: Christopher Wingard. Optimized.
-        2018-03-04: Christopher Wingard. Updated to correctly calculate pCO2 using
-                    newly formulated code provided by the vendor. Original vendor code
-                    incorrectly calculated the blank correction. Applies additional
-                    corrections to calculations to avoid errors thrown when running a
-                    blank measurement.
-        2023-01-12: Mark Steiner. Arg therm in degrees C instead of counts
-        2023-08-15: Samuel Dahlberg. Changed local variable names to follow naming convention.
-
-    Usage:
-
-        pco2 = pco2_pco2wat(light, therm, ea434, eb434, ea620, eb620,
-                            calt, cala, calb, calc, a434blank, a620blank)
-
-            where
-
-        pco2 = measured pco2 in seawater (PCO2WAT_L1) [uatm]
-        light = array of light measurements
-        therm = PCO2W thermistor temperature (CO2THRM_L1) [degrees C]
-        ea434 = Reagent specific calibration coefficient
-        eb434 = Reagent specific calibration coefficient
-        ea620 = Reagent specific calibration coefficient
-        eb620 = Reagent specific calibration coefficient
-        calt = Instrument specific calibration coefficient for temperature
-        cala = Instrument specific calibration coefficient for the pCO2 measurements
-        calb = Instrument specific calibration coefficient for the pCO2 measurements
-        calc = Instrument specific calibration coefficient for the pCO2 measurements
-        a434blank = Blank measurements at 434 nm (CO2ABS1_L0) [counts]
-        a620blank = Blank measurements to 620 nm (CO2ABS2_L0) [counts]
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Seawater. Document Control Number 1341-00510.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00490_Data_Product_SPEC_PCO2WAT_OOI.pdf)
+    Notes
+    -----
+    Uses the 2018 Sunburst Sensors vendor formulation with fixed spectral ratio
+    constants e1=0.0043, e2=2.136, e3=0.2105 in place of the earlier reagent-
+    coefficient expressions. The molar absorptivity arguments (ea434, eb434,
+    ea620, eb620) are accepted but not used in the current algorithm. Blank
+    measurement records, identified by equal blank-corrected absorbance ratios
+    at both wavelengths, are spoofed to 0.99999 to avoid log-domain errors and
+    subsequently reset to the fill value.
     """
     # set constants -- original vendor formulation, reset below
     # ea434 = ea434 - 29.3 * calt
@@ -376,40 +269,23 @@ def pco2_calc_pco2(light, therm, ea434, eb434, ea620, eb620,
 
 def pco2_ppressure(xco2, p, std=1013.25):
     """
-    Description:
+    Compute partial pressure of CO2 in air or seawater (PCO2ATM_L1 or PCO2SSW_L1).
 
-        OOI Level 1 Partial Pressure of CO2 in Air (PCO2ATM) or Surface
-        Seawater (PCO2SSW) core date product is computed by using an
-        equation that incorporates the Gas Stream Pressure (PRESAIR) and the
-        CO2 Mole Fraction in Air or Surface Seawater (XCO2ATM or XCO2SSW,
-        respectively). It is computed using data from the pCO2 air-sea (PCO2A)
-        family of instruments.
+    Parameters
+    ----------
+    xco2 : array_like
+        CO2 mole fraction in air or surface seawater (XCO2ATM_L0 or
+        XCO2SSW_L0) [ppm].
+    p : array_like
+        Gas stream pressure (PRESAIR_L0) [mbar].
+    std : float, optional
+        Standard atmospheric pressure [mbar]. Default is 1013.25 mbar.
 
-    Implemented by:
-
-        2014-10-27: Christopher Wingard. Initial python code.
-        2023-08-15: Samuel Dahlberg. Removed use of Numexpr.
-
-    Usage:
-
-        ppres = pco2_ppressure(xco2, p, std)
-
-            where
-
-        ppres = partial pressure of CO2 in air or surface seawater [uatm]
-                (PCO2ATM_L1 or PCO2SSW_L1)
-        xco2 = CO2 mole fraction in air or surface seawater [ppm] (XCO2ATM_LO
-               or XCO2SSW_L0)
-        p = gas stream pressure [mbar] (PRESAIR_L0)
-        std = standard atmospheric pressure set to default of 1013.25 [mbar/atm]
-
-    References:
-
-        OOI (2012). Data Product Specification for Partial Pressure of CO2 in
-            Air and Surface Seawater. Document Control Number 1341-00260.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00260_Data_Product_SPEC_PCO2ATM_PCO2SSW_OOI.pdf)
+    Returns
+    -------
+    ppres : ndarray
+        Partial pressure of CO2 in air or surface seawater
+        (PCO2ATM_L1 or PCO2SSW_L1) [uatm].
     """
     ppres = xco2 * p / std
     return ppres
@@ -417,39 +293,34 @@ def pco2_ppressure(xco2, p, std=1013.25):
 
 def pco2_co2flux(pco2w, pco2a, u10, t, s):
     """
-    Description:
+    Compute sea-to-air CO2 flux (CO2FLUX_L2) from PCO2A and METBK data.
 
-        OOI Level 2 core date product CO2FLUX is an estimate of the CO2 flux
-        from the ocean to the atmosphere. It is computed using data from the
-        pCO2 air-sea (PCO2A) and bulk meteorology (METBK) families of
-        instruments.
+    Parameters
+    ----------
+    pco2w : array_like
+        Partial pressure of CO2 in seawater (PCO2SSW_L1) [uatm].
+    pco2a : array_like
+        Partial pressure of CO2 in air (PCO2ATM_L1) [uatm].
+    u10 : array_like
+        Wind speed at 10 m height (WIND10M_L2) [m s^-1].
+    t : array_like
+        Sea surface temperature (TEMPSRF_L1) [degC].
+    s : array_like
+        Sea surface salinity (SALSURF_L2) [psu].
 
-    Implemented by:
+    Returns
+    -------
+    flux : ndarray
+        Estimated sea-to-air CO2 flux (CO2FLUX_L2) [mol m^-2 s^-1].
+        Positive values indicate outgassing; negative values indicate uptake.
 
-        2012-03-28: Mathias Lankhorst. Original Matlab code.
-        2013-04-20: Christopher Wingard. Initial python code.
-
-    Usage:
-
-        flux = pco2_co2flux(pco2w, pco2a, u10, t, s)
-
-            where
-
-        flux = estimated flux of CO2 from the ocean to atmosphere [mol m-2 s-1]
-               (CO2FLUX_L2)
-        pco2w = partial pressure of CO2 in sea water [uatm] (PCO2SSW_L1)
-        pco2a = partial pressure of CO2 in air [uatm] (PCO2ATM_L1)
-        u10 = normalized wind speed at 10 m height from METBK [m s-1] (WIND10M_L2)
-        t = sea surface temperature from METBK [deg_C] (TEMPSRF_L1)
-        s = sea surface salinity from METBK [psu] (SALSURF_L2)
-
-    References:
-
-        OOI (2012). Data Product Specification for Flux of CO2 into the
-            Atmosphere. Document Control Number 1341-00270.
-            https://alfresco.oceanobservatories.org/ (See: Company Home >>
-            OOI >> Controlled >> 1000 System Level >>
-            1341-00270_Data_Product_SPEC_CO2FLUX_OOI.pdf)
+    Notes
+    -----
+    The Schmidt number Sc is computed from the Wanninkhof (1992) polynomial
+    (Table A1). The gas transfer velocity k uses the Sweeney et al. (2007)
+    parameterization (k = 0.27 * u10^2 * sqrt(660/Sc)), converted from
+    cm h^-1 to m s^-1. CO2 solubility K0 follows the volumetric formulation
+    of Weiss (1974, Eqn. 12 and Table I) with units of mol atm^-1 m^-3.
     """
     # convert micro-atm to atm
     pco2a = pco2a / 1.0e6

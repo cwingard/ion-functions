@@ -38,6 +38,7 @@ nav:
   - OOI System Interface:
       - Overview: ooi_interface.md
   - API Reference:          # Add families here as modules are converted
+      - CO2: api/co2_functions.md
       - CTD: api/ctd_functions.md
       - Fluorometer: api/flo_functions.md
       - Hydrophone: api/hyd_functions.md
