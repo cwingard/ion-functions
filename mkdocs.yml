@@ -5,27 +5,11 @@ repo_url: https://github.com/oceanobservatories/ion-functions
 repo_name: oceanobservatories/ion-functions
 
 theme:
-  name: material
-  logo: assets/NSF-OOI-RGB.png
-  favicon: assets/NSF-OOI-RGB.png
-  palette:
-    - scheme: default
-      primary: blue
-      accent: light blue
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - scheme: slate
-      primary: blue
-      accent: light blue
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
-  features:
-    - navigation.sections
-    - navigation.expand
-    - toc.follow
-    - search.suggest
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - python
+  logo: docs/assets/NSF-OOI-RGB.png
 
 markdown_extensions:
   - toc:
@@ -38,7 +22,7 @@ plugins:
         python:
           options:
             docstring_style: numpy
-            show_source: false
+            show_source: true
             show_root_heading: true
             show_root_full_path: false
             heading_level: 3
@@ -47,9 +31,9 @@ plugins:
 nav:
   - Home: index.md
   - Getting Started: getting_started.md
-  - API Reference:
-    - Hydrophone: api/hyd_functions.md
-    - CTD: api/ctd_functions.md
-    - Fluorometer: api/flo_functions.md
   - OOI System Interface:
-    - Overview: ooi_interface.md
+      - Overview: ooi_interface.md
+  - API Reference:          # Add families here as modules are converted
+      - CTD: api/ctd_functions.md
+      - Fluorometer: api/flo_functions.md
+      - Hydrophone: api/hyd_functions.md

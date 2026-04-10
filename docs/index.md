@@ -9,11 +9,32 @@ oxygen, CO2, fluorometry, pH, pressure, meteorology, and more.
 
 ## Instrument families
 
+Documentation is being added progressively as modules are converted to the
+NumPy docstring format. Linked entries have full API documentation; unlinked
+entries are pending conversion.
+
 | Module | Instruments | Data products |
 |--------|-------------|---------------|
 | [Hydrophone](api/hyd_functions.md) | HYDBB, HYDLF | HYDAPBB, HYDAPLF |
 | [CTD](api/ctd_functions.md) | SBE 16Plus, SBE 37IM, SBE 52MP, glider CTDs | TEMPWAT, PRESWAT, CONDWAT, PRACSAL, DENSITY |
 | [Fluorometer](api/flo_functions.md) | ECO FLORD, FLORT, FLNTU | CHLAFLO, CDOMFLO, FLUBSCT |
+| CO2 | SAMI-CO2 | PCO2WAT, PCO2ATM |
+| Dissolved oxygen | SBE 43, Aanderaa Optode | DOXYGEN |
+| Water velocity (single-point) | Aquadopp, FSI, Nobska MAVS | VELPTTU |
+| Ocean bottom seismometer | OBSBB, OBSBK | GRNDVEL, GRNDACC, SGRDVEL |
+| pH | PHSEN-D | PHWATER |
+| pH (spectrophotometric) | SAMI-pH | PHWATER |
+| Generic | — | Shared utilities |
+| Nitrate | SUNA | NITROPT |
+| Optical | SPECTIR, SPKIR, PARAD, FLORT | OPTATTN, OPTABSN, PAR |
+| Pressure | SBE 26Plus, Nano | PRESWAT |
+| Seafloor | TRHPH, RASFL | THSPHTE, SULFIDE |
+| ADCP | Workhorse, Pinnacle | VELPROF, ECHOINT |
+| Current profiler | VADCP | VELPROF |
+| DC/DC converter | FDCHP | FDCHP products |
+| Mass spectrometer | MASSP | MASSP products |
+| Meteorology | METBK | WINDAVG, TEMPAIR, BARPRES, and others |
+| QC functions | — | Quality control flags |
 
 ## Data product levels
 

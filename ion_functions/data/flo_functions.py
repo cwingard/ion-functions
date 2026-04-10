@@ -302,7 +302,7 @@ def flo_density_seawater(degC, psu):
     rho_sw : ndarray
         Density of seawater [kg m-3].
     """
-    # density of water and seawater,unit is Kg/m^3, from UNESCO,38,1981
+    # density of water and seawater,unit is Kg/m^3, from UNESCO, 38, 1981
     a0 = 8.24493e-1
     a1 = -4.0899e-3
     a2 = 7.6438e-5
@@ -333,23 +333,35 @@ def flo_scale_and_offset(counts_output, counts_dark, scale_factor):
     """
     Apply dark-count subtraction and scale factor to raw fluorometer counts.
 
-    Common calibration expression used by `flo_chla`, `flo_cdom`, and
-    `flo_beta` to convert raw instrument counts to physical units.
+    Core calibration function for CHLAFLO_L1, CDOMFLO_L1, and FLUBSCT_L1.
+    Implements the linear scaling expression common to all three L1 products:
+
+        value = (counts_output - counts_dark) * scale_factor
+
+    `flo_chla`, `flo_cdom`, and `flo_beta` are named wrappers for this
+    function that assign the result to a specific OOI data product.
 
     Parameters
     ----------
     counts_output : array_like
-        Measured sample output [counts].
+        Measured sample output in raw instrument counts (L0) [counts].
     counts_dark : float
         Dark count offset — signal output measured in clean water with the
-        detector blocked [counts].
+        detector blocked. Determined from factory calibration [counts].
     scale_factor : float
-        Instrument-specific scale factor [physical units counts-1].
+        Instrument-specific linear scale factor. Determined from factory
+        calibration [physical units counts-1].
 
     Returns
     -------
     value : ndarray
-        Calibrated output in instrument-specific physical units.
+        Calibrated L1 output in instrument-specific physical units.
+
+    See Also
+    --------
+    flo_chla : Wrapper for CHLAFLO_L1 [ug L-1].
+    flo_cdom : Wrapper for CDOMFLO_L1 [ppb].
+    flo_beta : Wrapper for FLUBSCT_L1 [m-1 sr-1].
     """
     value = (counts_output - counts_dark) * scale_factor
     return value
@@ -357,26 +369,12 @@ def flo_scale_and_offset(counts_output, counts_dark, scale_factor):
 
 def flo_chla(counts_output, counts_dark, scale_factor):
     """
-    Compute fluorometric chlorophyll-a concentration (CHLAFLO_L1).
+    OOI wrapper for CHLAFLO_L1. Returns chlorophyll-a concentration [ug L-1].
 
-    Converts raw fluorometer counts to chlorophyll-a concentration using
-    dark-count subtraction and a scale factor.
-
-    Parameters
-    ----------
-    counts_output : array_like
-        Measured sample output (CHLAFLO_L0) [counts].
-    counts_dark : float
-        Dark count offset measured in clean water with detector blocked
-        [counts].
-    scale_factor : float
-        Scale factor [ug L-1 counts-1].
-
-    Returns
-    -------
-    chla_conc : ndarray
-        Fluorometric chlorophyll-a concentration (CHLAFLO_L1) [ug L-1].
-
+    See Also
+    --------
+    flo_scale_and_offset : Core implementation; use directly when the
+        product identity does not need to be explicit.
     """
     chla_conc = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return chla_conc
@@ -384,26 +382,12 @@ def flo_chla(counts_output, counts_dark, scale_factor):
 
 def flo_cdom(counts_output, counts_dark, scale_factor):
     """
-    Compute fluorometric CDOM concentration (CDOMFLO_L1).
+    OOI wrapper for CDOMFLO_L1. Returns CDOM concentration [ppb].
 
-    Converts raw fluorometer counts to colored dissolved organic matter
-    (CDOM) concentration using dark-count subtraction and a scale factor.
-
-    Parameters
-    ----------
-    counts_output : array_like
-        Measured sample output (CDOMFLO_L0) [counts].
-    counts_dark : float
-        Dark count offset measured in clean water with detector blocked
-        [counts].
-    scale_factor : float
-        Scale factor [ppb counts-1].
-
-    Returns
-    -------
-    cdom_conc : ndarray
-        Fluorometric CDOM concentration (CDOMFLO_L1) [ppb].
-
+    See Also
+    --------
+    flo_scale_and_offset : Core implementation; use directly when the
+        product identity does not need to be explicit.
     """
     cdom_conc = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return cdom_conc
@@ -411,32 +395,13 @@ def flo_cdom(counts_output, counts_dark, scale_factor):
 
 def flo_beta(counts_output, counts_dark, scale_factor):
     """
-    Compute the volume scattering function (FLUBSCT_L1).
-
-    Converts raw fluorometer counts to the volume scattering function
-    measured at the instrument's effective backscatter angle. Most FLORD,
-    FLORT, and FLNTU instruments measure at 700 nm.
-
-    Parameters
-    ----------
-    counts_output : array_like
-        Measured sample output (FLUBSCT_L0) [counts].
-    counts_dark : float
-        Dark count offset measured in clean water with detector blocked
-        [counts].
-    scale_factor : float
-        Scale factor [m-1 sr-1 counts-1].
-
-    Returns
-    -------
-    beta : ndarray
-        Volume scattering function at the instrument's effective backscatter
-        angle (FLUBSCT_L1) [m-1 sr-1].
+    OOI wrapper for FLUBSCT_L1. Returns volume scattering function [m-1 sr-1].
 
     See Also
     --------
+    flo_scale_and_offset : Core implementation; use directly when the
+        product identity does not need to be explicit.
     flo_bback_total : Converts FLUBSCT_L1 to total backscatter (FLUBSCT_L2).
-
     """
     beta = flo_scale_and_offset(counts_output, counts_dark, scale_factor)
     return beta

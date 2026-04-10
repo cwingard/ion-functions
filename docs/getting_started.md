@@ -7,7 +7,7 @@ ion-functions requires a conda environment. The recommended approach:
 ```bash
 conda env create -f conda_env.yml
 conda activate ion
-python setup.py develop
+pip install -e .
 ```
 
 This installs all runtime dependencies (numpy, scipy, gsw, ppigrf, numexpr)
