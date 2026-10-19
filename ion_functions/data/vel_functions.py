@@ -1696,8 +1696,7 @@ def vel_mag_correction(u, v, lat, lon, ntp_timestamp, z=0.0, zflag=-1):
     theta = magnetic_declination(lat, lon, ntp_timestamp, z, zflag)
 
     # apply the magnetic declination correction
-    magvar = np.vectorize(magnetic_correction)
-    u_cor, v_cor = magvar(theta, u, v)
+    u_cor, v_cor = magnetic_correction(theta, u, v)
 
     return u_cor, v_cor
 
