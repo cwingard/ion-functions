@@ -173,6 +173,18 @@ Run the full test suite before opening a pull request:
 pytest
 ```
 
+### C extension tests
+
+The QC extension (`ion_functions/qc/qc_extensions.pyx`) and the polynomial calibration extension
+(`ion_functions/data/polycals.pyx`) wrap C code in `extensions/`. When changing that C code, also run the C test
+harness, which requires `make` and gcc (on Windows, use WSL):
+
+```bash
+make
+extensions/test
+make clean
+```
+
 ---
 
 ## Documentation

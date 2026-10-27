@@ -1,7 +1,6 @@
 name: ion
 channels:
   - conda-forge
-  - defaults
 dependencies:
   - python=3.12
   - cython
@@ -9,7 +8,9 @@ dependencies:
   - scipy>=1.17
   - matplotlib>=3.10
   - gsw>=3.6
+  - numexpr
   - ppigrf>=2.0
+  - pytest
   - mkdocstrings
   - mkdocstrings-python
   - mkdocs-material
