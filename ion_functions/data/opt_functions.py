@@ -522,11 +522,6 @@ def opt_scatter_corr(apd_ts, awlngth, cpd_ts, cwlngth, rwlngth=715.):
     return apd_ts_s
 
 
-# The next 2 functions are not used in calculating optical absorption and beam attenuation
-# coefficients from the OPTAA family of instruments. However, some of these instruments
-# may be outfitted with an auxiliary pressure sensor and/or external temperature sensor.
-#
-# opt_pressure is not used in the calculation of the final OPTAA data products.
 def opt_pressure(praw, offset, sfactor):
     """
     Calculates the depth of the ac-s from its optional auxiliary

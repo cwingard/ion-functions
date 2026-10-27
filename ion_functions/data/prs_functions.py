@@ -1,49 +1,8 @@
 #!/usr/bin/env python
 """
 Module containing calculations related to instruments in the Seafloor
-Pressure (PRS) family.
-
-Functions are organized by instrument subsystem:
-
-  BOTTILT -- Seafloor High-Resolution Tilt (Applied Geomechanics LILY):
-
-    prs_bottilt_ccmp -- computes BOTTILT-CCMP_L1
-    prs_bottilt_tmag -- computes BOTTILT-TMAG_L1
-    prs_bottilt_tdir -- computes BOTTILT-TDIR_L1
-
-  BOTSFLU -- Seafloor Uplift and Subsidence:
-
-    prs_botsflu_time15s   -- computes TIME15S-AUX
-    prs_botsflu_meanpres  -- computes BOTSFLU-MEANPRES_L2
-    prs_botsflu_predtide  -- computes BOTSFLU-PREDTIDE_L2
-    prs_botsflu_meandepth -- computes BOTSFLU-MEANDEPTH_L2
-    prs_botsflu_5minrate  -- computes BOTSFLU-5MINRATE_L2
-    prs_botsflu_10minrate -- computes BOTSFLU-10MINRATE_L2
-    prs_botsflu_time24h   -- computes TIME24H-AUX
-    prs_botsflu_daydepth  -- computes BOTSFLU-DAYDEPTH_L2
-    prs_botsflu_4wkrate   -- computes BOTSFLU-4WKRATE_L2
-    prs_botsflu_8wkrate   -- computes BOTSFLU-8WKRATE_L2
-
-  BOTSFLU helper functions:
-
-    prs_botsflu_daydepth_from_15s_meandepth
-    prs_botsflu_4wkrate_from_daydepth
-    prs_botsflu_8wkrate_from_daydepth
-    anchor_bin_raw_data_to_15s
-    anchor_bin_detided_data_to_24h
-    calc_meandepth_plus
-    calculate_sliding_means
-    calculate_sliding_slopes
-
-  Deprecated functions (retained for reference):
-
-    prs_tsunami_detection
-    prs_eruption_imminent
-    prs_eruption_occurred
-    anchor_bin
-    calc_daydepth_plus
-    calculate_all_sliding_slopes_then_Nan
-    calculate_sliding_slopes__MoorePenrose
+Pressure (PRS) family: BOTTILT (Seafloor High-Resolution Tilt, Applied
+Geomechanics LILY) and BOTSFLU (Seafloor Uplift and Subsidence).
 
 Authors: Russell Desiderio, Christopher Wingard
 """
@@ -195,36 +154,6 @@ def prs_bottilt_tdir(x_tilt, y_tilt, ccmp):
     The addend of 450 (= 90 + 360) ensures a positive argument to the
     modulo operation before rounding to integer degrees.
     """
-    ### As originally coded, according to the algorithm specified in the DPS:
-
-    ## Calculate the angle to use in the tilt direction formula
-    ## default angle calculation -- in degrees
-    #angle = ne.evaluate('arctan(y_tilt / x_tilt)')
-    #angle = np.degrees(angle)
-    #
-    ## if X-Tilt == 0 and Y-Tilt > 0
-    #mask = np.logical_and(x_tilt == 0, y_tilt > 0)
-    #angle[mask] = 90.0
-    #
-    ## if X-Tilt == 0 and Y-Tilt < 0
-    #mask = np.logical_and(x_tilt == 0, y_tilt < 0)
-    #angle[mask] = -90.0
-    #
-    ## if Y-Tilt == 0
-    #mask = np.equal(y_tilt, np.zeros(len(y_tilt)))
-    #angle[mask] = 0.0
-    #
-    ### Calculate the tilt direction, using the X-Tilt to set the equation
-    ## default tilt direction equation
-    #tdir = ne.evaluate('(270 - angle + ccmp) % 360')
-    #
-    ## if X-Tilt >= 0
-    #tmp = ne.evaluate('(90 - angle + ccmp) % 360')
-    #mask = np.greater_equal(x_tilt, np.zeros(len(x_tilt)))
-    #tdir[mask] = tmp[mask]
-    #
-    #return np.round(tdir)
-
     # The calculation is faster and simpler if the arctan2 function is used.
     # Use 450=90+360 as the addend in the first argument to the mod(x,360)
     # function to make sure the result is positive.

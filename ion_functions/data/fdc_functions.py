@@ -15,88 +15,6 @@ from scipy import signal
 from ion_functions import deprecated
 
 
-"""
-#...................................................................................
-#...................................................................................
-    The FDCHP instrument outputs a dataset of 10 Hz data for approximately 20 minutes
-        every hour, resulting in around 12000 data records for each dataset.
-    The FDCHP data product algorithms parse incoming 1D array data into separate
-        datasets and operate on these datasets individually.
-    Each of the four L1 products (wind and temperature) consists of 11400 values for
-        each 20 minute dataset.
-    Each of the three L2 flux products consists of one value per 20 minute dataset.
-
-    Two additional auxiliary data products, not specified in the DPS, have been coded
-        to provide time bases for the L1 and L2 products.
-#...................................................................................
-#...................................................................................
-
-    LISTING OF SUBROUTINES BY ORDER IN THIS MODULE
-        Grouped by sections; alphabetical within each section.
-
-#...................................................................................
-#...................................................................................
-    Functions to compute the L1 FDCHP data products:
-
-        fdc_tmpatur:        TMPATUR
-        fdc_windtur_north:  WINDTUR-VLN
-        fdc_windtur_up:     WINDTUR-VLU
-        fdc_windtur_west:   WINDTUR-VLW
-#...................................................................................
-#...................................................................................
-    Functions to compute the L2 FDCHP data products:
-
-        fdc_fluxhot:            FLUXHOT
-        fdc_fluxmom_alongwind:  FLUXMOM-U
-        fdc_fluxmom_crosswind:  FLUXMOM-V
-#...................................................................................
-#...................................................................................
-    Functions to compute the auxiliary time base data products:
-
-        fdc_time_L1:  TIME_L1-AUX
-        fdc_time_L2:  TIME_L2-AUX
-#...................................................................................
-#...................................................................................
-    Primary routine to directly compute L1 wind products and L2 flux products:
-
-        fdc_flux_and_wind
-#...................................................................................
-#...................................................................................
-    Subroutines called by the primary routine fdc_flux_and_wind and its subroutines:
-
-        fdc_accelsclimode
-        fdc_alignwind
-        fdc_anglesclimodeyaw
-        fdc_despikesimple
-        fdc_detrend
-        fdc_filtcoef
-        fdc_grv
-        fdc_process_compass_data
-        fdc_quantize_data
-        fdc_sonic
-        fdc_trans
-        fdc_update
-#...................................................................................
-#...................................................................................
-
-"""
-####################################################################################
-####################################################################################
-####################################################################################
-"""
-#...................................................................................
-#...................................................................................
-    Functions to compute the L1 FDCHP data products:
-
-        fdc_tmpatur:        TMPATUR
-        fdc_windtur_north:  WINDTUR-VLN
-        fdc_windtur_up:     WINDTUR-VLU
-        fdc_windtur_west:   WINDTUR-VLW
-#...................................................................................
-#...................................................................................
-"""
-
-
 @deprecated
 def fdc_tmpatur(timestamp, sonicT):
     """
@@ -353,19 +271,6 @@ def fdc_windtur_west(timestamp, sonicU, sonicV, sonicW, heading,
     return wind_west
 
 
-"""
-#...................................................................................
-#...................................................................................
-    Functions to compute the L2 FDCHP data products:
-
-        fdc_fluxhot:            FLUXHOT
-        fdc_fluxmom_alongwind:  FLUXMOM-U
-        fdc_fluxmom_crosswind:  FLUXMOM-V
-#...................................................................................
-#...................................................................................
-"""
-
-
 @deprecated
 def fdc_fluxhot(timestamp, sonicU, sonicV, sonicW, sonicT, heading,
                 rateX, rateY, rateZ, accX, accY, accZ, lat):
@@ -556,18 +461,6 @@ def fdc_fluxmom_crosswind(timestamp, sonicU, sonicV, sonicW, heading,
     return fluxmom_cross
 
 
-"""
-#...................................................................................
-#...................................................................................
-    Functions to compute the auxiliary time base data products:
-
-        fdc_time_L1:  TIME_L1-AUX
-        fdc_time_L2:  TIME_L2-AUX
-#...................................................................................
-#...................................................................................
-"""
-
-
 @deprecated
 def fdc_time_L1(timestamp):
     """
@@ -664,17 +557,6 @@ def fdc_time_L2(timestamp):
     time_L2 = np.around(np.median(tmstmp, axis=-1))
 
     return time_L2
-
-
-"""
-#...................................................................................
-#...................................................................................
-    Primary routine to directly compute L1 wind products and L2 flux products:
-
-        fdc_flux_and_wind
-#...................................................................................
-#...................................................................................
-"""
 
 
 @deprecated
@@ -905,28 +787,6 @@ def fdc_flux_and_wind(timestamp, sonicU, sonicV, sonicW, sonicT, heading,
     windspeeds = (vln, vlw, vlu)
 
     return fluxes, windspeeds
-
-
-"""
-#...................................................................................
-#...................................................................................
-    Subroutines called by the primary routine fdc_flux_and_wind and its subroutines:
-
-        fdc_accelsclimode
-        fdc_alignwind
-        fdc_anglesclimodeyaw
-        fdc_despikesimple
-        fdc_detrend
-        fdc_filtcoef
-        fdc_grv
-        fdc_process_compass_data
-        fdc_quantize_data
-        fdc_sonic
-        fdc_trans
-        fdc_update
-#...................................................................................
-#...................................................................................
-"""
 
 
 def fdc_accelsclimode(bhi, ahi, sf, accm, euler):

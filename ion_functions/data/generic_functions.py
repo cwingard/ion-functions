@@ -86,16 +86,6 @@ def replace_fill_with_nan(instrument_fillvalue, *args):
     if instrument_fillvalue is not None:
         all_fillvalues = np.hstack((all_fillvalues, instrument_fillvalue))
 
-    ## original coding loops
-    #for ii in range(len(args)):
-    #    # check to see if the first element is an integer datatype
-    #    if isinstance(np.ndarray.flatten(args[ii])[0], (long, int)):
-    #        mask = np.zeros_like(args[ii], dtype=bool)
-    #        for jj in range(len(all_fillvalues)):
-    #            mask = np.logical_or(mask, args[ii] == all_fillvalues[jj])
-    #        args[ii] = args[ii].astype('float')
-    #        args[ii][mask] = np.nan
-
     # more pythonic, perhaps faster
     for ii, val in enumerate(args):
         # check to see if the first element is an integer datatype
