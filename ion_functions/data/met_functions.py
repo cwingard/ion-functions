@@ -235,7 +235,7 @@ def met_windavg_mag_corr_east(uu, vv, lat, lon, timestamp, spd_corr=[0.0, 1.0], 
     met_wind_mag_corr : Core algorithm; use directly for multi-output
         access to both corrected wind components.
     """
-    # calculate the magnetic declination using the WMM model and rotate the vectors
+    # calculate the magnetic declination using the IGRF model and rotate the vectors
     # from the magnetic to the true compass frame using met_wind_mag_corr
     uu_cor, vv_cor = met_wind_mag_corr(uu, vv, lat, lon, timestamp, spd_corr, zwindsp)
     return uu_cor
@@ -252,7 +252,7 @@ def met_windavg_mag_corr_north(uu, vv, lat, lon, timestamp, spd_corr=[0.0, 1.0],
     met_wind_mag_corr : Core algorithm; use directly for multi-output
         access to both corrected wind components.
     """
-    # calculate the magnetic declination using the WMM model and rotate the vectors
+    # calculate the magnetic declination using the IGRF model and rotate the vectors
     # from the magnetic to the true compass frame using met_wind_mag_corr
     uu_cor, vv_cor = met_wind_mag_corr(uu, vv, lat, lon, timestamp, spd_corr, zwindsp)
     return vv_cor

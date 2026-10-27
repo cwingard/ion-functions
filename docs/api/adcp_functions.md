@@ -242,7 +242,7 @@ are listed in the [References](#references) section.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Moved beam and compass conditioning to helper functions; removed depth dependence from magnetic declination |
@@ -274,7 +274,7 @@ are listed in the [References](#references) section.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Moved beam and compass conditioning to helper functions; removed depth dependence from magnetic declination |
@@ -290,7 +290,7 @@ are listed in the [References](#references) section.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-03-28 | Russell Desiderio | Documentation correction |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
@@ -307,7 +307,7 @@ are listed in the [References](#references) section.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Moved beam and compass conditioning to helper functions |
@@ -342,7 +342,7 @@ implementation.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Removed depth dependence from magnetic declination |
@@ -363,7 +363,7 @@ implementation.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Removed depth dependence from magnetic declination |
@@ -402,7 +402,7 @@ implementation.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code (as adcp_beam_eastward) |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
 | 2015-06-10 | Russell Desiderio | Moved beam and compass conditioning to helper functions; removed depth dependence from magnetic declination |
@@ -418,7 +418,7 @@ implementation.
 | Date | Author | Change |
 |---|---|---|
 | 2013-04-10 | Christopher Wingard | Initial code (as adcp_beam_northward) |
-| 2014-02-03 | Christopher Wingard | Updated to use IGRF-14 magnetic declination |
+| 2014-02-03 | Christopher Wingard | Updated to use WMM 2010 magnetic declination |
 | 2014-03-28 | Russell Desiderio | Documentation correction |
 | 2014-04-04 | Russell Desiderio | Replaced for loops with np.einsum |
 | 2014-06-25 | Christopher Wingard | Corrected units for heading, pitch, roll, depth |
@@ -709,9 +709,11 @@ OOI (2020). Data Product Specification for Velocity Profile and Echo
 Intensity. Document Control Number 1341-00750.
 https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00750_Data_Product_SPEC_VELPROF_ECHOINT_OOI.pdf
 
-Alken, P., Thebault, E., Beggan, C.D., et al. (2021). International
-Geomagnetic Reference Field: the thirteenth generation. *Earth Planets Space*,
-73, 49. <https://doi.org/10.1186/s40623-020-01288-x>
+Beggan, C.D., et al. (2026). International Geomagnetic Reference Field: the fourteenth
+generation. *Earth Planets Space*, 78, 127. <https://doi.org/10.1186/s40623-025-02360-0>
+
+International Association of Geomagnetism and Aeronomy (2024). IGRF-14. Zenodo.
+<https://doi.org/10.5281/zenodo.14012302>
 
 Strom, K.M., and Reistad, H. (2024). ppigrf: Python package for computing
 the International Geomagnetic Reference Field (IGRF).

@@ -119,12 +119,6 @@ def magnetic_declination(lat: npt.ArrayLike, lon: npt.ArrayLike, timestamp: npt.
     """
     Computes magnetic declination from the IGRF for 1 to N samples.
 
-    Inputs are broadcast together, quantized (time to the day, position
-    to _POS_DECIMALS decimal places), and deduplicated. The IGRF is
-    evaluated once on the grid of unique days x unique positions
-    (chunked to bound memory) and the results are mapped back to the
-    original samples.
-
     Parameters
     ----------
     lat : array_like
@@ -155,15 +149,13 @@ def magnetic_declination(lat: npt.ArrayLike, lon: npt.ArrayLike, timestamp: npt.
 
     Notes
     -----
-    Day binning (evaluated at mid-day) introduces <= ~0.0003 deg of
-    error; position rounding to 4 decimals (~10 m) is negligible. Both
-    are far below the IGRF's own uncertainty relative to the true
-    field. ppigrf evaluates the outer product of dates and coordinates,
-    so it must never be called with N dates and N positions directly.
+    Time is binned to the day and position rounded to 4 decimals
+    before the IGRF is evaluated; the resulting error (<= ~0.0003 deg)
+    is far below the IGRF's own uncertainty.
 
     See Also
     --------
-    igrf_declination : Exact, unquantized, single-sample reference.
+    igrf_declination : Single, scalar reference.
     """
     arrays = np.broadcast_arrays(lat, lon, timestamp, z, zflag, ntp)
     shape = arrays[0].shape
@@ -205,15 +197,14 @@ def magnetic_declination(lat: npt.ArrayLike, lon: npt.ArrayLike, timestamp: npt.
 
 def magnetic_correction(theta, u, v):
     """
-    Corrects velocity vectors for magnetic variation (declination) at
+    Corrects velocity vectors for magnetic declination (variation) at
     the measurement location. Used by several data products (e.g.
     VELPROF, WINDAVG) across multiple instrument classes.
 
     Parameters
     ----------
     theta : array_like
-        Magnetic variation based on location and date [degrees]. See
-        igrf_declination.
+        Magnetic declination based on location and date [degrees].
     u : array_like
         Uncorrected eastward velocity in Earth coordinates.
     v : array_like
@@ -223,10 +214,14 @@ def magnetic_correction(theta, u, v):
     -------
     u_cor : array_like
         Eastward velocity, in Earth coordinates, corrected for
-        magnetic variation.
+        magnetic declination.
     v_cor : array_like
         Northward velocity, in Earth coordinates, corrected for
-        magnetic variation.
+        magnetic declination.
+
+    See Also
+    --------
+    magnetic_declination : Array-vectorized entry point.
     """
     theta_rad = np.radians(np.atleast_1d(theta))
     u = np.atleast_1d(u)
@@ -289,7 +284,7 @@ def igrf_declination(lat, lon, timestamp, z=0.0, zflag=-1, ntp=1):
 
     See Also
     --------
-    magnetic_declination : Public, array-vectorized entry point.
+    magnetic_declination : Array-vectorized entry point.
     """
     if any(np.size(arg) > 1 for arg in (lat, lon, timestamp, z, zflag, ntp)):
         raise ValueError('igrf_declination accepts single-valued inputs only; '

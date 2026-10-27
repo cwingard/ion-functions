@@ -31,13 +31,6 @@ qc_extension_sources = ["ion_functions/qc/qc_extensions.pyx",
 qc_extension = Extension("ion_functions.qc.qc_extensions", qc_extension_sources,
                          include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
 
-# wmm_extension_sources = ["ion_functions/data/wmm.pyx",
-#                          "extensions/GeomagnetismLibrary.c",
-#                          "extensions/wmm.c", ]
-#
-# wmm_extension = Extension("ion_functions.data.wmm", wmm_extension_sources,
-#                           include_dirs=[np.get_include(), "extensions/"], libraries=["m"])
-
 polycals_sources = ["ion_functions/data/polycals.pyx",
                     "extensions/polycals.c"]
 polycals_extension = Extension("ion_functions.data.polycals", polycals_sources,

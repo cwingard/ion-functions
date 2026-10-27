@@ -368,7 +368,7 @@ def nobska_mag_corr_east(u, v, lat, lon, timestamp, z=0):
     OOI wrapper for VELPTTU-VLE_L1 eastward velocity from VEL3D-B (Nobska).
 
     Converts units from cm/s to m/s and calls vel_mag_correction to
-    apply the WMM magnetic declination rotation.
+    apply the IGRF magnetic declination rotation.
 
     Parameters
     ----------
@@ -415,7 +415,7 @@ def nobska_mag_corr_north(u, v, lat, lon, timestamp, z=0):
     OOI wrapper for VELPTTU-VLN_L1 northward velocity from VEL3D-B (Nobska).
 
     Converts units from cm/s to m/s and calls vel_mag_correction to
-    apply the WMM magnetic declination rotation.
+    apply the IGRF magnetic declination rotation.
 
     Parameters
     ----------
@@ -482,7 +482,7 @@ def nortek_mag_corr_east(u, v, lat, lon, timestamp, z=0.0, status_code=0):
     OOI wrapper for VELPTTU-VLE_L1 eastward velocity from VEL3D-C/D (Vector).
 
     Converts units from mm/s to m/s, calls vel_mag_correction to apply
-    the WMM magnetic declination rotation, then applies optional status
+    the IGRF magnetic declination rotation, then applies optional status
     code scaling via nortek_scale_velocity.
 
     Parameters
@@ -543,7 +543,7 @@ def nortek_mag_corr_north(u, v, lat, lon, timestamp, z=0.0, status_code=0):
     OOI wrapper for VELPTTU-VLN_L1 northward velocity from VEL3D-C/D (Vector).
 
     Converts units from mm/s to m/s, calls vel_mag_correction to apply
-    the WMM magnetic declination rotation, then applies optional status
+    the IGRF magnetic declination rotation, then applies optional status
     code scaling via nortek_scale_velocity.
 
     Parameters
@@ -933,7 +933,7 @@ def velpt_mag_corr_east(u, v, lat, lon, timestamp, z=0.0):
     OOI wrapper for VELPTMN-VLE_L1 eastward velocity from VELPT-A/B/D/J.
 
     Converts units from mm/s to m/s and calls vel_mag_correction to
-    apply the WMM magnetic declination rotation. Does not apply to
+    apply the IGRF magnetic declination rotation. Does not apply to
     VEL3D-K.
 
     Parameters
@@ -980,7 +980,7 @@ def velpt_mag_corr_north(u, v, lat, lon, timestamp, z=0.0):
     OOI wrapper for VELPTMN-VLN_L1 northward velocity from VELPT-A/B/D/J.
 
     Converts units from mm/s to m/s and calls vel_mag_correction to
-    apply the WMM magnetic declination rotation. Does not apply to
+    apply the IGRF magnetic declination rotation. Does not apply to
     VEL3D-K.
 
     Parameters
@@ -1092,7 +1092,7 @@ def fsi_acm_horz_vel(vp1, vp3, hdg, lat, lon, timestamp):
 
     Pitch and roll are negligible for profiler-mounted instruments, so
     the instrument-to-earth transform involves only a heading correction
-    combined with the WMM magnetic declination.
+    combined with the IGRF magnetic declination.
 
     For series A (RSN), hdg is derived from calibrated field direction
     cosines by fsi_acm_nautical_heading. For series L (Scripps), hdg
@@ -1655,7 +1655,8 @@ def vel_mag_correction(u, v, lat, lon, ntp_timestamp, z=0.0, zflag=-1):
 
     Rotates a velocity vector (u, v) referenced to magnetic North into
     true Earth coordinates by removing the magnetic declination estimated
-    from the World Magnetic Model (WMM) for the given location and time.
+    from the International Geomagnetic Reference Field (IGRF-14) for the
+    given location and time.
 
     Parameters
     ----------

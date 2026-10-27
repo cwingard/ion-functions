@@ -7,9 +7,9 @@ instruments across its moored and profiling platforms: **VELPTMN** (Mean
 Point Water Velocity) and **VELPTTU** (Turbulent Point Water Velocity). Both
 families produce three-component velocity data products — eastward (VLE),
 northward (VLN), and upward (VLU) — referenced to true Earth coordinates
-after correction for magnetic declination using the World Magnetic Model
-(WMM). The table below lists the OOI instrument classes covered by this
-module.
+after correction for magnetic declination using the International Geomagnetic
+Reference Field (IGRF-14). The table below lists the OOI instrument classes
+covered by this module.
 
 | Class | Hardware | Platform type | Designator meaning |
 |---|---|---|---|
@@ -22,7 +22,7 @@ module.
 
 `vel_functions.py` converts L0 raw velocity data from each instrument class
 into calibrated L1 velocity data products in m/s, referenced to true North
-and true East. All magnetic declination corrections are computed from the WMM
+and true East. All magnetic declination corrections are computed from the IGRF
 using the deployment location (latitude, longitude, depth) and NTP timestamp.
 No factory calibration coefficients are applied by ion-functions for these
 instruments; the instruments perform onboard beam-to-ENU coordinate transforms
@@ -54,7 +54,7 @@ comprises three components: eastward (VLE), northward (VLN), and upward
 already converted to earth coordinates (East, North, Up) onboard using its
 internal heading, pitch, and roll sensors. The L0 data are in mm/s. The L1
 product is computed by `velpt_mag_corr_east` and `velpt_mag_corr_north`, which
-call `vel_mag_correction` to apply the WMM magnetic declination rotation and
+call `vel_mag_correction` to apply the IGRF magnetic declination rotation and
 convert units to m/s. The upward component requires only a unit conversion via
 `velpt_up_vel`.
 
@@ -71,7 +71,7 @@ $$V_x = \frac{-\text{vp1} - \text{vp3}}{\sqrt{2}}$$
 $$V_y = \frac{\text{vp1} - \text{vp3}}{\sqrt{2}}$$
 
 The speed and cartesian heading are then combined with the nautical heading
-and the WMM magnetic declination to produce true-Earth-referenced components.
+and the IGRF magnetic declination to produce true-Earth-referenced components.
 Because pitch and roll are negligible for profiler-mounted instruments, no
 tilt correction is applied.
 
@@ -114,7 +114,7 @@ VELPTTU_L1 is the turbulent point water velocity (m/s) comprising eastward
 
 **VEL3D-B (Nobska MAVS-4):** The MAVS-4 outputs velocity in earth coordinates
 in cm/s. The wrapper functions `nobska_mag_corr_east` and
-`nobska_mag_corr_north` call `vel_mag_correction` to apply the WMM rotation
+`nobska_mag_corr_north` call `vel_mag_correction` to apply the IGRF rotation
 and convert to m/s. The upward component requires only a unit conversion via
 `nobska_scale_up_vel`.
 
@@ -170,7 +170,7 @@ being the instrument X-axis rather than the Y-axis.
 
 ### Magnetic Declination Correction
 
-The core function `vel_mag_correction` applies the WMM rotation to any
+The core function `vel_mag_correction` applies the IGRF rotation to any
 horizontal velocity pair:
 
 $$\begin{align}
@@ -552,6 +552,12 @@ caveats about the stationary case apply.
 
 ## References
 
+Beggan, C.D., et al. (2026). International Geomagnetic Reference Field: the fourteenth
+generation. *Earth Planets Space*, 78, 127. <https://doi.org/10.1186/s40623-025-02360-0>
+
+International Association of Geomagnetism and Aeronomy (2024). [IGRF-14.
+Zenodo.](https://doi.org/10.5281/zenodo.14012302)
+
 [OOI (2012). Data Product Specification for Turbulent Point Water Velocity
 (Nobska MAVS-4). Document Control Number 1341-00781.](https://oceanobservatories.org/wp-content/uploads/2023/09/Data_Product_SPEC_VELPTTU_combined.pdf)
 
@@ -563,3 +569,7 @@ Control Number 1341-00790.](https://oceanobservatories.org/wp-content/uploads/20
 
 OOI (2014). Data Product Specification for Mean Point Water Velocity Data from
 FSI Acoustic Current Meters. Document Control Number 1341-00792.
+
+Strom, K.M., and Reistad, H. (2024). [ppigrf: Python package for computing
+the International Geomagnetic Reference Field
+(IGRF).](https://github.com/IAGA-VMOD/ppigrf)

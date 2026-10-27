@@ -243,10 +243,10 @@ to NaN before applying the rotation and restoring fills afterward.
 #### Additional Notes
 
 The executable code in this function is identical to
-`magnetic_correction_vctrzd` in `adcp_functions.py`. It was written
+`magnetic_correction` in `adcp_functions.py`. It was written
 separately to handle the vectorized (i, j) case of one magnetic declination
 per ensemble of (u, v) pairs without a for loop. The ADCP DPS citations in
-the docstring reflect the origin of the rotation algorithm; the function
+the References section reflect the origin of the rotation algorithm; the function
 operates identically for (X, Y) displacement coordinates as for (u, v)
 velocity components.
 
@@ -291,9 +291,11 @@ Intensity. Document Control Number 1341-00750.](https://oceanobservatories.org/w
 [OOI (2013). Data Product Specification for Turbulent Velocity Profile and
 Echo Intensity. Document Control Number 1341-00760.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00760_Data_Product_SPEC_VELTURB_ECHOINT_OOI.pdf)
 
-Alken, P., Thebault, E., Beggan, C.D., et al. (2021). International
-Geomagnetic Reference Field: the thirteenth generation. *Earth Planets Space*,
-73, 49. <https://doi.org/10.1186/s40623-020-01288-x>
+Beggan, C.D., et al. (2026). International Geomagnetic Reference Field: the fourteenth
+generation. *Earth Planets Space*, 78, 127. <https://doi.org/10.1186/s40623-025-02360-0>
+
+International Association of Geomagnetism and Aeronomy (2024). IGRF-14. Zenodo.
+<https://doi.org/10.5281/zenodo.14012302>
 
 Strom, K.M., and Reistad, H. (2024). ppigrf: Python package for computing
 the International Geomagnetic Reference Field (IGRF).
