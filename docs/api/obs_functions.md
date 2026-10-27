@@ -32,7 +32,7 @@ and the Ground Motion category.
 
 ---
 
-### OBSBB — Broadband Ocean Bottom Seismometer
+### OBSBB -- Broadband Ocean Bottom Seismometer
 
 OBSBB instruments provide characterization of seismicity and earthquake
 activity along tectonic plate boundaries. The OOI array of broadband
@@ -65,7 +65,7 @@ made available to OOI via an Antelope Orbserver export.
 
 ---
 
-### GRNDVEL_L1 — Broadband Ground Velocity
+### GRNDVEL_L1 -- Broadband Ground Velocity
 
 GRNDVEL_L1 is the broadband ground velocity (m/s) time-series measured by
 the Guralp CMG-1T seismometer channel of the OBSBB instrument. The L0
@@ -82,7 +82,7 @@ The result is the L1 ground velocity time-series in m/s.
 
 ---
 
-### GRNDACC_L1 — Broadband Ground Acceleration
+### GRNDACC_L1 -- Broadband Ground Acceleration
 
 GRNDACC_L1 is the broadband ground acceleration (m/s$^2$) time-series
 measured by the Guralp CMG-5T strong motion accelerometer channel of the
@@ -103,7 +103,7 @@ correlation across data products.
 
 ---
 
-### OBSSP — Short Period Ocean Bottom Seismometer
+### OBSSP -- Short Period Ocean Bottom Seismometer
 
 OBSSP instruments detect vibrations from small, locally generated
 earthquakes in the frequency range 0.1 Hz to 100 Hz. These events arise
@@ -124,7 +124,7 @@ export.
 
 ---
 
-### SGRDVEL_L1 — Short Period Ground Velocity
+### SGRDVEL_L1 -- Short Period Ground Velocity
 
 SGRDVEL_L1 is the short period ground velocity (m/s) time-series measured
 by the OBSSP instrument. The L0 input is the raw digital count output of

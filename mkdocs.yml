@@ -42,6 +42,7 @@ plugins:
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Contributing: CONTRIBUTING.md
   - Data Product Levels: data_products.md
   - Calibration Coefficients: calibrations.md
   - Function Types: function_types.md

@@ -31,20 +31,15 @@ respectful environment for everyone.
 ## Getting started
 
 1. Fork the repository on GitHub.
-2. Clone your fork locally:
+2. Clone your fork and add the main repository as the `upstream` remote:
 
    ```bash
    git clone https://github.com/<your-username>/ion-functions.git
    cd ion-functions
+   git remote add upstream https://github.com/oceanobservatories/ion-functions.git
    ```
 
-3. Create the development environment:
-
-   ```bash
-   conda env create -f conda_env.yml
-   conda activate ion
-   pip install -e .
-   ```
+3. Create the environment and install the package as described in [Installation](installation.md).
 
 4. Verify the setup:
 
@@ -72,8 +67,8 @@ When opening a new issue, include:
 ## Proposing changes
 
 For small, focused fixes (typos, documentation corrections, minor bug fixes)
-you can open a pull request directly. For larger changes — new instrument
-families, algorithm updates, or structural refactors — open an issue first to
+you can open a pull request directly. For larger changes -- new instrument
+families, algorithm updates, or structural refactors -- open an issue first to
 discuss the approach before investing time in implementation.
 
 ---
@@ -95,13 +90,13 @@ requests for unrelated fixes rather than bundling them together.
 
 ## Code style
 
-- **Python version:** 3.13+.
+- **Python version:** 3.12, as pinned in `conda_env.yml`.
 - **Line length:** wrap code and comments at 120 characters.
 - **Formatting:** follow [PEP 8](https://peps.python.org/pep-0008/). Use
   `black` or `ruff` if you prefer an automated formatter, but do not reformat
   code outside the scope of your change.
 - **Types:** type annotations are welcome but not required.
-- **Imports:** standard library first, then third-party, then local — each
+- **Imports:** standard library first, then third-party, then local -- each
   group separated by a blank line.
 - **No magic numbers:** use named constants or document the source of a
   numerical value in a comment.
@@ -110,7 +105,9 @@ requests for unrelated fixes rather than bundling them together.
 
 - All functions in `ion_functions/data/` accept and return NumPy arrays.
 - Functions must be stateless (no class-level or module-level mutable state).
-- Missing or fill values use `NaN` (float) or `-9999999` (integer).
+- Missing values use `NaN` for floats. Integer data use the system fill value `-999999999`
+  (`SYSTEM_FILLVALUE` in `generic_functions.py`); instrument-specific integer fill values are converted to `NaN`
+  with `replace_fill_with_nan`.
 - Do not alter the signature or logic of existing functions without discussion;
   OOI data processing pipelines depend on stable interfaces.
 
@@ -146,11 +143,14 @@ def my_function(arg1, arg2):
     """
 ```
 
-Use plain ASCII in docstrings — no Unicode, Greek letters, or special
+Use plain ASCII in docstrings -- no Unicode, Greek letters, or special
 symbols. Write units as plain text (e.g., `degC`, `m s^-1`, `umol/kg`).
 
 Do not add a `References` section to individual docstrings; citations belong
 in the corresponding documentation page under `docs/api/`.
+
+Each function also appears on its instrument family page in `docs/api/` through a `:::` directive followed by a
+History table. When you change a function, add a History row (date, author, change) to that table.
 
 ---
 

@@ -23,7 +23,7 @@ journal articles cited in the code.
 
 ---
 
-### NITRTSC_L2 — Temperature and Salinity Corrected Dissolved Nitrate
+### NITRTSC_L2 -- Temperature and Salinity Corrected Dissolved Nitrate
 
 NITRTSC_L2 is the dissolved nitrate concentration ($\mu$M) corrected for
 the temperature and salinity dependence of the seawater UV absorption
@@ -34,14 +34,14 @@ Sakamoto et al. (2009) algorithm.
 
 The SUNA V2 produces two frame types in each measurement cycle:
 
-- **Light frames** (frame type `SLB`) — UV absorption spectra measured
+- **Light frames** (frame type `SLB`) -- UV absorption spectra measured
   through the seawater sample. These are used to compute NITRTSC_L2.
-- **Dark frames** (frame type `SDB`, `SDF`, or `NDF`) — baseline
+- **Dark frames** (frame type `SDB`, `SDF`, or `NDF`) -- baseline
   measurements with the UV lamp off. These are not used by OOI; they are 
   filled with `NaN` on output.
 
 Each frame contains a 256-element UV absorption spectrum (NITROPT_L0)
-covering approximately 190–400 nm, sampled at roughly 0.8 nm intervals.
+covering approximately 190-400 nm, sampled at roughly 0.8 nm intervals.
 The instrument also provides a dark current scalar (`dark_value`) averaged
 from the previous dark frame measurements.
 
@@ -50,12 +50,12 @@ from the previous dark frame measurements.
 Four sets of 256-element wavelength-dependent arrays are supplied from
 factory calibration sheets:
 
-- `wl` — wavelength bins (nm) for each spectral channel
-- `eno3` — nitrate molar absorptivity (extinction coefficients) at each
+- `wl` -- wavelength bins (nm) for each spectral channel
+- `eno3` -- nitrate molar absorptivity (extinction coefficients) at each
   wavelength, determined from laboratory standards
-- `eswa` — seawater extinction coefficients at each wavelength, at a
+- `eswa` -- seawater extinction coefficients at each wavelength, at a
   reference salinity of 35 and the calibration temperature `cal_temp`
-- `di` — deionized water reference spectrum, measured in the laboratory
+- `di` -- deionized water reference spectrum, measured in the laboratory
   at the time of calibration
 
 A scalar calibration temperature `cal_temp` ($^\circ$C) specifies the
@@ -67,9 +67,9 @@ allowing coefficients to vary across deployments within a single input array.
 Two wavelength limit parameters bound the spectral window used in the
 regression:
 
-- `wllower` — lower wavelength limit (nm); default 217 nm for the
+- `wllower` -- lower wavelength limit (nm); default 217 nm for the
   1-cm pathlength probe tip or 220 nm for the 4-cm pathlength probe tip
-- `wlupper` — upper wavelength limit (nm); default 240 nm for the
+- `wlupper` -- upper wavelength limit (nm); default 240 nm for the
   1-cm pathlength probe tip or 245 nm for the 4-cm pathlength probe tip
 
 #### NITRTSC_L2 Algorithm
@@ -77,23 +77,23 @@ regression:
 The algorithm follows Sakamoto et al. (2009). For each light frame $i$,
 the computation proceeds as follows.
 
-**Step 1 — Select the spectral fitting window.** Wavelength bins and their
+**Step 1 -- Select the spectral fitting window.** Wavelength bins and their
 corresponding calibration arrays are subset to channels where
 $\text{wllower} \leq \lambda \leq \text{wlupper}$:
 
 $$\lambda,\ ENO3,\ ESWA,\ DI \gets \text{channels where } \text{wllower} \leq wl \leq \text{wlupper}$$
 
-**Step 2 — Dark-correct the measured spectrum** by subtracting the dark
+**Step 2 -- Dark-correct the measured spectrum** by subtracting the dark
 current scalar from the raw spectral counts:
 
 $$SW_{corr} = SW - dark_value$$
 
-**Step 3 — Compute absorbance** from the ratio of the deionized water
+**Step 3 -- Compute absorbance** from the ratio of the deionized water
 reference to the dark-corrected seawater spectrum:
 
 $$A = \log_{10}\!\left(\frac{DI}{SW_{corr}}\right)$$
 
-**Step 4 — Temperature-correct the seawater extinction coefficients.**
+**Step 4 -- Temperature-correct the seawater extinction coefficients.**
 The in situ temperature ($T$) and calibration temperature ($T_{cal}$) are
 used to scale `eswa` following Sakamoto et al. (2009), Equation 4. The
 coefficients $A_{sak}$, $B_{sak}$, $C_{sak}$, $D_{sak}$ are fixed
@@ -109,7 +109,7 @@ D_{sak} &= 0.001222
 $$ESWA_T = ESWA \times \frac{A_{sak} + B_{sak} \times T}{A_{sak} + B_{sak} \times T_{cal}}
 \times \exp\!\left(D_{sak} \times (T - T_{cal}) \times (\lambda - 210)\right)$$
 
-**Step 5 — Subtract the seawater bromide contribution** from the measured
+**Step 5 -- Subtract the seawater bromide contribution** from the measured
 absorbance. The seawater absorbance is proportional to practical salinity
 $S_P$:
 
@@ -117,7 +117,7 @@ $$A_{swa} = S_P \times ESWA_T$$
 
 $$A_{comp} = A - A_{swa}$$
 
-**Step 6 — Solve for nitrate concentration** by linear least squares. The
+**Step 6 -- Solve for nitrate concentration** by linear least squares. The
 model matrix $M$ includes the nitrate extinction spectrum, a constant
 baseline offset, and a linear wavelength baseline:
 

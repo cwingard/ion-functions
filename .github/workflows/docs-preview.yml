@@ -15,6 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      - name: Check docs are ASCII
+        run: |
+          if grep -nP '[^\x00-\x7F]' README.md mkdocs.yml $(git ls-files 'docs/*.md'); then
+            echo "Non-ASCII characters found (listed above); use ASCII or HTML entities instead."
+            exit 1
+          fi
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:

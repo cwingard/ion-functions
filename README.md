@@ -57,7 +57,7 @@ Where sources disagree, the implemented code is authoritative and the discrepanc
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting bugs, proposing changes, and opening pull requests.
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for reporting bugs, proposing changes, and opening pull requests.
 
 ## License
 

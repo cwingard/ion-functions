@@ -39,7 +39,7 @@ processing chain.
 
 ---
 
-### OPTATTN_L2 — Optical Beam Attenuation Coefficient
+### OPTATTN_L2 -- Optical Beam Attenuation Coefficient
 
 OPTATTN_L2 is the spectral beam attenuation coefficient for all water
 impurities ($c_{pd}(\lambda)$, m$^{-1}$), computed from raw measurements
@@ -48,7 +48,7 @@ the total beam attenuation of the water mixture and that of pure seawater:
 $c_{pd} = c - c_w$.
 
 The ac-s instrument provides approximately 75 wavelength channels spanning
-roughly 400–750 nm in approximately 4 nm steps. It performs concurrent
+roughly 400-750 nm in approximately 4 nm steps. It performs concurrent
 attenuation and absorption measurements via a dual optical path in a single
 instrument, with an optical path length of 0.25 m. The attenuation channel
 uses a non-reflecting tube; the absorption channel uses a highly polished
@@ -63,12 +63,12 @@ measurements of water temperature (TEMPWAT_L1) and practical salinity
 Each OPTAA instrument ships with a device file (`*.dev`) containing four
 types of instrument-specific calibration data:
 
-- `coff` — pure water offsets for the attenuation ('c') channel (m$^{-1}$),
+- `coff` -- pure water offsets for the attenuation ('c') channel (m$^{-1}$),
   one per wavelength
-- `tcal` — the factory calibration reference temperature (pure water,
+- `tcal` -- the factory calibration reference temperature (pure water,
   $^\circ$C) at which the offsets were determined
-- `tbins` — internal temperature calibration bin values ($^\circ$C)
-- `tc_arr` — internal temperature calibration correction coefficients for
+- `tbins` -- internal temperature calibration bin values ($^\circ$C)
+- `tc_arr` -- internal temperature calibration correction coefficients for
   the 'c' channel (m$^{-1}$), a 2-D array indexed by wavelength and
   temperature bin
 
@@ -81,7 +81,7 @@ Sea-Bird Scientific ac Meter Protocol Document (Revision P) is tabulated in
 
 The computation proceeds in four steps (DPS 1341-00690, Section 4.3):
 
-**Step 1 — Compute internal instrument temperature** from the raw thermistor
+**Step 1 -- Compute internal instrument temperature** from the raw thermistor
 count (OPTTEMP_L0):
 
 $$T_{intr} = \frac{1}{a + b \ln R + c (\ln R)^3} - 273.15$$
@@ -89,7 +89,7 @@ $$T_{intr} = \frac{1}{a + b \ln R + c (\ln R)^3} - 273.15$$
 where $R$ is the thermistor resistance derived from the raw count, and
 $a$, $b$, $c$ are fixed constants.
 
-**Step 2 — Convert raw counts to uncorrected beam attenuation** and apply
+**Step 2 -- Convert raw counts to uncorrected beam attenuation** and apply
 the internal temperature correction:
 
 $$c_{pd}(\lambda) = \left[c_{off}(\lambda) - \frac{1}{r}
@@ -108,7 +108,7 @@ where $T_1$ and $T_2$ are the bracketing temperature bin values and
 $\Delta T_1$, $\Delta T_2$ are the corresponding correction coefficients
 from the device file.
 
-**Step 3 — Apply the water temperature and salinity correction:**
+**Step 3 -- Apply the water temperature and salinity correction:**
 
 $$c_{pd;ts}(\lambda) = c_{pd}(\lambda)
 - \Psi_t(\lambda) \times (t - t_r)
@@ -123,7 +123,7 @@ is OPTATTN_L2.
 
 ---
 
-### OPTABSN_L2 — Optical Absorption Coefficient
+### OPTABSN_L2 -- Optical Absorption Coefficient
 
 OPTABSN_L2 is the spectral optical absorption coefficient for all water
 impurities ($a_{pd}(\lambda)$, m$^{-1}$), computed from raw measurements
@@ -141,10 +141,10 @@ OPTATTN_L2 for the scattering correction.
 The OPTABSN processing uses the same device file as OPTATTN, but draws on
 the absorption ('a') channel coefficients:
 
-- `aoff` — pure water offsets for the absorption ('a') channel (m$^{-1}$)
-- `ta_arr` — internal temperature correction coefficients for the 'a'
+- `aoff` -- pure water offsets for the absorption ('a') channel (m$^{-1}$)
+- `ta_arr` -- internal temperature correction coefficients for the 'a'
   channel (m$^{-1}$), indexed by wavelength and temperature bin
-- `tcal`, `tbins` — shared with the attenuation channel (above)
+- `tcal`, `tbins` -- shared with the attenuation channel (above)
 
 #### OPTABSN_L2 Algorithm
 
@@ -154,14 +154,14 @@ OPTATTN_L2 (Steps 1 and 2 above), but applied to the absorption channel
 (OPTASIG_L0 and OPTAREF_L0 in place of OPTCSIG_L0 and OPTCREF_L0, and
 `aoff` / `ta_arr` in place of `coff` / `tc_arr`).
 
-**Step 3 — Apply the water temperature and salinity correction:**
+**Step 3 -- Apply the water temperature and salinity correction:**
 
 $$a_{pd;ts}(\lambda) = a_{pd}(\lambda) - \Psi_t(\lambda) \times (t - t_r) - \Psi_{sa}(\lambda) \times s$$
 
 where $\Psi_{sa}$ is the absorption-channel salinity correction constant
 (distinct from the attenuation-channel $\Psi_{sc}$ used in OPTATTN).
 
-**Step 4 — Apply the scattering correction.** The ac-s absorption tube does
+**Step 4 -- Apply the scattering correction.** The ac-s absorption tube does
 not detect light scattered into the backward direction; the measured signal
 therefore overestimates absorption. The correction parameterizes the
 fraction of undetected scatter $\tilde{\beta}$ using a reference wavelength
@@ -182,10 +182,10 @@ $a_{pd;ts;s}(\lambda)$ is OPTABSN_L2.
 
 ---
 
-### OPTPARW_L1 — Photosynthetically Active Radiation
+### OPTPARW_L1 -- Photosynthetically Active Radiation
 
 OPTPARW_L1 is the photosynthetically active radiation ($\mu$mol photons
-m$^{-2}$ s$^{-1}$) within the spectral range 400–700 nm. Three instrument
+m$^{-2}$ s$^{-1}$) within the spectral range 400-700 nm. Three instrument
 variants are deployed across the OOI arrays, each using a different
 calibration equation.
 
@@ -226,12 +226,12 @@ sheets supplied by the manufacturer.
 
 ---
 
-### SPECTIR_L1 — Downwelling Spectral Irradiance
+### SPECTIR_L1 -- Downwelling Spectral Irradiance
 
 SPECTIR_L1 is the downwelling spectral "vector" irradiance ($E_d(\lambda)$,
 $\mu$W cm$^{-2}$ nm$^{-1}$) measured by the Sea-Bird Scientific OCR-507
 multispectral radiometer (SPKIR). The OCR-507 provides seven user-defined wavelength
-channels, typically spanning 400–700 nm in bandwidths of nominally 10 or
+channels, typically spanning 400-700 nm in bandwidths of nominally 10 or
 20 nm, with center wavelengths specified at instrument purchase.
 
 SPECTIR_L1 is an L1 product computed from 32-bit ADC counts using three
@@ -463,11 +463,11 @@ J. Geophys. Res., 116(C10013), doi:10.1029/2011JC007053.
 
 Boss, E. et al. (2001). Spectral particulate attenuation and particle size
 distribution in the bottom boundary layer of a continental shelf.
-J. Geophys. Res., 106(C5), 9509–9516, doi:10.1029/2000JC900077.
+J. Geophys. Res., 106(C5), 9509-9516, doi:10.1029/2000JC900077.
 
 Kitchen, J. C., Zaneveld, J. R. V., and Pak, H. (1982). Effects of particle
 size distribution and chlorophyll content on beam attenuation spectra.
-Appl. Opt., 21, 3913–3918.
+Appl. Opt., 21, 3913-3918.
 
 Mobley, C. D. (1994). Light and Water. San Diego, CA: Academic Press.
 
@@ -489,7 +489,7 @@ OOI (2014). Data Product Specification for Photosynthetically Active Radiation (
 
 Pegau, W. S., Gray, D., and Zaneveld, J. R. V. (1997). Absorption and
 attenuation of visible and near-infrared light in water: dependence on
-temperature and salinity. Appl. Opt., 36, 6035–6046.
+temperature and salinity. Appl. Opt., 36, 6035-6046.
 
 Sea-Bird Scientific. *Spectral Absorption and Attenuation Meter ac-s
 User's Guide, Revision J.* Philomath, OR: Sea-Bird Scientific.
@@ -509,4 +509,4 @@ Philomath, OR: Sea-Bird Scientific.
 Sullivan, J. M., Twardowski, M. S., Zaneveld, J. R. V., Moore, C. M.,
 Barnard, A. H., Donaghay, P. L., and Rhoades, B. (2006). The hyperspectral
 temperature and salt dependencies of absorption by water and heavy water in
-the 400–750 nm spectral range. Appl. Opt., 45, 5294–5309.
+the 400-750 nm spectral range. Appl. Opt., 45, 5294-5309.

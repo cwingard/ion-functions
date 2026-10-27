@@ -34,7 +34,7 @@ fall under the Water Column science regime and the Dissolved O$_2$ category.
 
 ---
 
-### DOCONCS_L1 and DOXYGEN_L2 — Stable Dissolved Oxygen (DOSTA)
+### DOCONCS_L1 and DOXYGEN_L2 -- Stable Dissolved Oxygen (DOSTA)
 
 The Aanderaa Optode 4831 (DOSTA) measures dissolved oxygen using a
 luminescence quenching principle. The optode's fluorescent foil emits light
@@ -56,7 +56,7 @@ produces DOXYGEN_L2.
 The DOSTA reaches the OOI data system through three distinct hardware
 configurations, each producing a different L0 format:
 
-**Analog output to CTD voltage channel** — The optode outputs $P_t$ and
+**Analog output to CTD voltage channel** -- The optode outputs $P_t$ and
 $T_{opt}$ as 0-5 V analog signals routed into CTD auxiliary voltage channels.
 The voltage signals are parsed as DOCONCS-VLT_L0 (phase) and a separate
 temperature voltage, then converted to degrees and $^\circ$C:
@@ -68,17 +68,17 @@ $$T_{opt}\ [^\circ\text{C}] = -5 + 8 \times T_{opt}\ [\text{V}]$$
 These fixed conversion coefficients are universal for all Aanderaa optodes
 (Shawn Sneddon, Xylem-Aanderaa).
 
-**Digital output via RS-232 to CTD** — The optode reports an oxygen
+**Digital output via RS-232 to CTD** -- The optode reports an oxygen
 concentration directly in internal units transmitted over RS-232 to an SBE
 16Plus V2 CTD, parsed as DOCONCS-CNT_L0:
 
 $$\text{DOCONCS_L1}\ [\mu\text{mol/L}] = \frac{\text{DOCONCS-CNT_L0}}{10000} - 10$$
 
-**Autonomous digital output** — The optode operates independently and reports
+**Autonomous digital output** -- The optode operates independently and reports
 $P_t$ (DOCONCS-DEG_L0) and $T_{opt}$ directly in degrees and $^\circ$C,
 requiring no voltage conversion before the SVU equation.
 
-#### DOCONCS_L1 — Stern-Volmer-Uchida Equation
+#### DOCONCS_L1 -- Stern-Volmer-Uchida Equation
 
 Where DOCONCS-DEG_L0 is available (analog or autonomous configurations),
 DOCONCS_L1 is computed using the Stern-Volmer-Uchida (SVU) equation
@@ -117,13 +117,13 @@ of its temperature. On gliders, differences between CTD and optode temperature
 of 1$^\circ$C correspond to approximately 5% differences in calculated oxygen
 concentration.
 
-#### DOXYGEN_L2 — Salinity and Pressure Correction
+#### DOXYGEN_L2 -- Salinity and Pressure Correction
 
 DOCONCS_L1 ($\mu$mol L$^{-1}$) is corrected for salinity and pressure using
 CTD data from the co-located instrument to produce DOXYGEN_L2 ($\mu$mol
 kg$^{-1}$). The correction has three sequential steps.
 
-**Step 1 — Volume to mass conversion.** Potential density $\rho$ is computed
+**Step 1 -- Volume to mass conversion.** Potential density $\rho$ is computed
 at reference pressure $p_{ref} = 0$ dbar from absolute salinity and
 conservative temperature (TEOS-10 GSW library):
 
@@ -135,11 +135,11 @@ $$\rho = \text{gsw.rho}(S_A, \Theta, p_{ref})$$
 
 $$O_{2,\text{mass}} = \frac{1000 \times O_2 [\mu\text{mol/L}]}{\rho\ [\text{kg/m}^3]}$$
 
-**Step 2 — Pressure correction** (Uchida et al. 2008):
+**Step 2 -- Pressure correction** (Uchida et al. 2008):
 
 $$O_{2,\text{pres}} = \left(1 + \frac{0.032 \times p}{1000}\right) \times O_{2,\text{mass}}$$
 
-**Step 3 — Salinity correction** (Garcia and Gordon 1992, Table 1,
+**Step 3 -- Salinity correction** (Garcia and Gordon 1992, Table 1,
 combined fit):
 
 $$t_s = \ln\!\left(\frac{298.15 - T}{273.15 + T}\right)$$
@@ -155,7 +155,7 @@ configured in the Aanderaa optode firmware (typically 0 or 35).
 
 ---
 
-### DOCONCF_L2 — Fast Dissolved Oxygen (DOFST)
+### DOCONCF_L2 -- Fast Dissolved Oxygen (DOFST)
 
 The Sea-Bird Scientific SBE 43 (DOFST-A) and SBE 43F (DOFST-K) are Clark-type
 polarographic dissolved oxygen sensors integrated into profiling CTD systems.
@@ -183,7 +183,7 @@ Sea-Bird uses an algorithm based on Owens and Millard (1985). With the
 derivative term removed by setting tau = 0 (recommended by Sea-Bird and the
 OOI DPS to prevent amplification of residual noise in deep water):
 
-**Step 1 — Oxygen solubility** (Garcia and Gordon 1992, Table 1, 1st column):
+**Step 1 -- Oxygen solubility** (Garcia and Gordon 1992, Table 1, 1st column):
 
 $$T_s = \ln\!\left(\frac{298.15 - T}{273.15 + T}\right)$$
 
@@ -198,7 +198,7 @@ $A_4 = -0.256847$, $A_5 = 3.88767$, $B_0 = -0.00624523$,
 $B_1 = -0.00737614$, $B_2 = -0.010341$, $B_3 = -0.00817083$,
 $C_0 = -4.88682 \times 10^{-7}$.
 
-**Step 2 — Intermediate oxygen concentration** [mL L$^{-1}$]:
+**Step 2 -- Intermediate oxygen concentration** [mL L$^{-1}$]:
 
 $$\text{DO_int} = \text{Soc} \times (x + \text{offset}) \times \text{Oxsol}(T, S)
 \times (1 + AT + BT^2 + CT^3) \times e^{EP/K}$$
@@ -206,7 +206,7 @@ $$\text{DO_int} = \text{Soc} \times (x + \text{offset}) \times \text{Oxsol}(T, S
 where $x$ is $V$ (SBE 43) or $F$ (SBE 43F), $K = T + 273.15$ is absolute
 temperature, and Soc, offset, A, B, C, E are factory calibration coefficients.
 
-**Step 3 — Convert to $\mu$mol kg$^{-1}$:**
+**Step 3 -- Convert to $\mu$mol kg$^{-1}$:**
 
 Potential density $\rho_\theta$ is computed using `gsw.pot_rho_t_exact` with
 a reference pressure of 0 dbar:
@@ -215,7 +215,7 @@ $$\text{DOCONCF_L2} = \frac{\text{DO_int} \times 44660}{\rho_\theta}$$
 
 ---
 
-### DOXYGEN_L2 — SeapHOx Dissolved Oxygen
+### DOXYGEN_L2 -- SeapHOx Dissolved Oxygen
 
 The Sea-Bird Scientific Deep SeapHOx V2 (PHSEN-G and PHSEN-H) integrates an
 SBE 63 optical dissolved oxygen sensor alongside an SBE 37 MicroCAT CTD and

@@ -29,14 +29,14 @@ Dissolved CO$_2$ category.
 
 ---
 
-### PCO2WAT_L1 — Partial Pressure of CO<sub>2</sub> in Seawater
+### PCO2WAT_L1 -- Partial Pressure of CO<sub>2</sub> in Seawater
 
 PCO2WAT_L1 is the partial pressure of CO$_2$ (pCO$_2$, $\mu$atm) in 
 seawater at depth, computed from the [Sunburst SAMI-CO2](https://www.sunburstsensors.com/products/oceanographic-carbon-dioxide-sensor.html) (PCO2W). The SAMI-CO2 
 uses a bromothymol blue (BTB) pH indicator solution that equilibrates with the
 ambient seawater through a permeable silicone membrane. The equilibrated
 indicator solution passes through an optical cell where absorbance is
-measured at 434 nm and 620 nm — the peak absorbance wavelengths for the
+measured at 434 nm and 620 nm -- the peak absorbance wavelengths for the
 protonated and deprotonated forms of the indicator. Periodic blank
 measurements (every 3.5 days) correct for drift in the electro-optical
 system.
@@ -45,8 +45,8 @@ system.
 
 The SAMI-CO2 outputs two record types:
 
-- **Type 4** — regular measurement (used to compute PCO2WAT_L1)
-- **Type 5** — blank measurement (used to correct Type 4 records)
+- **Type 4** -- regular measurement (used to compute PCO2WAT_L1)
+- **Type 5** -- blank measurement (used to correct Type 4 records)
 
 Each record contains a 434 nm ratio (`Ratio434`), a 620 nm ratio (`Ratio620`), 
 and a raw thermistor count (`Therm`). Raw blank counts from Type 5 records are
@@ -122,7 +122,7 @@ Output accuracy: $\pm 3 \times \mu\text{atm}$; precision $<1 \times \mu\text{atm
 
 ---
 
-### PCO2ATM_L1 and PCO2SSW_L1 — pCO<sub>2</sub> in Air and Surface Seawater
+### PCO2ATM_L1 and PCO2SSW_L1 -- pCO<sub>2</sub> in Air and Surface Seawater
 
 PCO2ATM_L1 and PCO2SSW_L1 are the partial pressures of CO$_2$ (pCO$_2$, $\mu$atm) in
 atmosphere and surface seawater, respectively. Both are computed from the
@@ -152,7 +152,7 @@ Output accuracy: $\pm 1 \times \mu\text{atm}$; precision $\pm 0.01 \times \mu\te
 
 ---
 
-### CO2FLUX_L2 — Air-Sea Flux of CO<sub>2</sub>
+### CO2FLUX_L2 -- Air-Sea Flux of CO<sub>2</sub>
 
 CO2FLUX_L2 is the estimate of the flux of CO$_2$ across the air-sea 
 interface. It is computed from PCO2SSW_L1 and PCO2ATM_L1 and select 
@@ -163,25 +163,25 @@ speed at 10 m height (WIND10M_L2).
 The flux is positive when directed from the ocean to the atmosphere. The 
 computation follows these steps:
 
-**Step 1** — Convert pCO$_2$ (for both air and water) from $\mu$atm to atm.
+**Step 1** -- Convert pCO$_2$ (for both air and water) from $\mu$atm to atm.
 
 $$pCO_2,air = pCO_2,air \div 10^6$$
 
 $$pCO_2,water = pCO_2,water \div 10^6$$
 
-**Step 2** — Compute the Schmidt number $S_c$ from sea surface temperature
+**Step 2** -- Compute the Schmidt number $S_c$ from sea surface temperature
 $t$ ($^\circ$C) (Wanninkhof, 1992, Table A1):
 
 $$S_c = 2073.1 - 125.62 \times t + 3.6276 \times t^2 - 0.043219 \times t^3$$
 
-**Step 3** — Compute the gas transfer velocity $k$ in cm h$^{-1}$ and
+**Step 3** -- Compute the gas transfer velocity $k$ in cm h$^{-1}$ and
 convert to m s$^{-1}$ (Sweeney et al., 2007, Fig. 3 and Table 1):
 
 $$k = \frac{0.27 \times {u_{10}}^2 \times \sqrt{660 \div S_c}}{100 \times 3600}$$
 
 where $u_{10}$ is the 10 m wind speed in m s$^{-1}$.
 
-**Step 4** — Compute absolute temperature $T = t + 273.15$ (K), then
+**Step 4** -- Compute absolute temperature $T = t + 273.15$ (K), then
 compute CO$_2$ solubility $K_0$ in mol atm$^{-1}$ m$^{-3}$ using the volume
 formulation (Weiss, 1974, Eqn. 12 and Table I):
 
@@ -194,7 +194,7 @@ K_0 &= 1000 \times \exp(-58.0931 + 90.5069 \times (100 / T) + 22.2940 \times \ln
 
 where $s$ is the sea surface salinity.
 
-**Step 5** — Compute the flux (Wanninkhof, 1992, Eqn. A2):
+**Step 5** -- Compute the flux (Wanninkhof, 1992, Eqn. A2):
 
 $$F = k \times K_0 \times (pCO_2,water - pCO_2,air)$$
 

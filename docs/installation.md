@@ -2,17 +2,12 @@
 
 ## Requirements
 
-- Python 3.12
-- Cython >= 3.0
-- NumPy >= 2.4
-- SciPy >= 1.17
-- [gsw](https://teos-10.github.io/GSW-Python/) >= 3.6 (TEOS-10 seawater thermodynamics)
-- [ppigrf](https://github.com/IAGA-VMOD/ppigrf) >= 2.0 (geomagnetic field model)
+ion-functions is installed into a conda environment built from conda-forge packages. Install
+[Miniforge](https://github.com/conda-forge/miniforge), which uses the conda-forge channel by default. The dependencies,
+including the documentation tools, are listed in `conda_env.yml` at the repository root. Installing the package
+compiles two Cython extensions, so a C compiler is also required (on Windows, the Microsoft C++ Build Tools).
 
 ## Installing
-
-The recommended approach uses conda to create an isolated environment with
-all dependencies:
 
 ```bash
 git clone https://github.com/oceanobservatories/ion-functions.git
@@ -22,10 +17,12 @@ conda activate ion
 pip install -e .
 ```
 
-`pip install -e .` will build the required Cython extensions automatically.
-
 ## Running the tests
 
 ```bash
 pytest
 ```
+
+## Contributing
+
+To report a bug, propose a change, or set up a development fork, see [Contributing](CONTRIBUTING.md).

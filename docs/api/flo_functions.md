@@ -17,9 +17,9 @@ Mobile-platform instruments (profilers, gliders, AUVs) use only passive
 mitigation (copper faceplates).
 
 `flo_functions.py` converts raw L0 count data from these instruments into
-three L1 data products — fluorometric chlorophyll-a concentration
+three L1 data products -- fluorometric chlorophyll-a concentration
 (CHLAFLO_L1), fluorometric CDOM concentration (CDOMFLO_L1), and the
-volume scattering function (FLUBSCT_L1) — and one L2 product, the total
+volume scattering function (FLUBSCT_L1) -- and one L2 product, the total
 optical backscatter coefficient (FLUBSCT_L2). All calibration coefficients
 are from factory calibration sheets. Within the OOI data system, FLO
 functions fall under the Water Column science regime. FLORD instruments
@@ -37,7 +37,7 @@ category.
 
 ---
 
-### CHLAFLO and CDOMFLO — Fluorescence Concentrations
+### CHLAFLO and CDOMFLO -- Fluorescence Concentrations
 
 Raw output from the FLORD/FLORT instrument is in counts, ranging from 0
 to approximately 4096. The L1 fluorescence concentrations are computed
@@ -102,18 +102,18 @@ three backscatter channels at different visible wavelengths.
 The L2 product is the total optical backscatter coefficient $b_b$
 ($\text{m}^{-1}$), computed in four steps:
 
-**Step 1** — Compute the seawater volume scattering function $\beta_\text{sw}$
+**Step 1** -- Compute the seawater volume scattering function $\beta_\text{sw}$
 and total seawater scattering coefficient $b_\text{sw}$ using the Zhang
 et al. (2009) model with co-located CTD temperature and salinity:
 
 $$[\beta_\text{sw}, b_\text{sw}] = \text{flo_zhang_scatter_coeffs}(\text{degC}, \text{psu}, \theta, \lambda)$$
 
-**Step 2** — Subtract the seawater contribution to obtain the particulate
+**Step 2** -- Subtract the seawater contribution to obtain the particulate
 volume scattering function:
 
 $$\beta_p(\theta, \lambda) = \beta(\theta, \lambda) - \beta_\text{sw}(\theta, \lambda)$$
 
-**Step 3** — Convert to the particulate backscattering coefficient using
+**Step 3** -- Convert to the particulate backscattering coefficient using
 the chi factor $\chi$:
 
 $$b_{bp} = \chi \times 2\pi \times \beta_p(\theta, \lambda)$$
@@ -123,7 +123,7 @@ chi factor relates the particulate volume scattering at angle $\theta$ to
 the total particulate backscattering coefficient integrated over all
 backward angles.
 
-**Step 4** — Add the seawater backscattering contribution. Because
+**Step 4** -- Add the seawater backscattering contribution. Because
 seawater scattering is symmetric in forward and backward directions, the
 backward component is half the total:
 

@@ -5,8 +5,8 @@
 The Ocean Observatories Initiative deploys two families of point velocity
 instruments across its moored and profiling platforms: **VELPTMN** (Mean
 Point Water Velocity) and **VELPTTU** (Turbulent Point Water Velocity). Both
-families produce three-component velocity data products — eastward (VLE),
-northward (VLN), and upward (VLU) — referenced to true Earth coordinates
+families produce three-component velocity data products -- eastward (VLE),
+northward (VLN), and upward (VLU) -- referenced to true Earth coordinates
 after correction for magnetic declination using the International Geomagnetic
 Reference Field (IGRF-14). The table below lists the OOI instrument classes
 covered by this module.
@@ -43,7 +43,7 @@ VEL3D instruments fall under the Water Column and Seafloor/Crust regimes.
 
 ---
 
-### VELPTMN_L1 — Mean Point Water Velocity
+### VELPTMN_L1 -- Mean Point Water Velocity
 
 VELPTMN_L1 is the mean point water velocity (m/s) measured by moored and
 profiling current meters that average over an ensemble interval. The product
@@ -60,7 +60,7 @@ convert units to m/s. The upward component requires only a unit conversion via
 
 **VEL3D-A (FSI ACM-3D-MP, RSN cabled deep profiler):** The FSI ACM stinger
 configuration has four acoustic transducers at the tips of four prongs
-oriented 45$^\circ$ from a central post. Four raw beam velocities (vp1–vp4)
+oriented 45$^\circ$ from a central post. Four raw beam velocities (vp1-vp4)
 are produced; vp1 and vp3 lie in the horizontal plane and vp2 and vp4 lie in
 the vertical plane. The core function `fsi_acm_horz_vel` converts the
 horizontal beam pair to eastward and northward velocity in m/s using the
@@ -107,7 +107,7 @@ above reflect the corrected implementations in the code.
 
 ---
 
-### VELPTTU_L1 — Turbulent Point Water Velocity
+### VELPTTU_L1 -- Turbulent Point Water Velocity
 
 VELPTTU_L1 is the turbulent point water velocity (m/s) comprising eastward
 (VLE), northward (VLN), and upward (VLU) components in true Earth coordinates.
@@ -129,7 +129,7 @@ individual beam velocities that require a full beam-to-ENU coordinate
 transformation via the core function `vel3dk_transform`. The transformation
 proceeds in two stages:
 
-*Stage 1 — Beam to profiler XYZ:* Beam velocities are converted to Cartesian
+*Stage 1 -- Beam to profiler XYZ:* Beam velocities are converted to Cartesian
 coordinates in the profiler frame using a pre-computed transformation matrix
 $T_{beam2XYZ}$ selected by `get_XYZ_transform`. Three beam configurations are
 supported: upward-traveling profiles (beams 1, 2, 4), downward-traveling
@@ -142,7 +142,7 @@ direction (1 $\to$ 4 $\to$ 3 $\to$ 2), with elevation angles of 47.5$^\circ$
 (4-beam) transform has not been exercised in OOI deployments and is
 unverified.
 
-*Stage 2 — Profiler XYZ to Earth ENU:* The rotation matrix $T_{XYZ2ENU}$ is
+*Stage 2 -- Profiler XYZ to Earth ENU:* The rotation matrix $T_{XYZ2ENU}$ is
 constructed by `generate_ENU_transform` from the instrument attitude at each
 sample:
 

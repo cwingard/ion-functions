@@ -43,7 +43,7 @@ requiring the conversions below.
 
 ---
 
-### CONDWAT_L1 — Seawater Conductivity
+### CONDWAT_L1 -- Seawater Conductivity
 
 The raw seawater conductivity (CONDWAT_L0, $c_0$), is reported in either 
 counts or scaled L1 units. The converted seawater conductivity, 
@@ -98,7 +98,7 @@ $\pm 0.0003$ S m$^{-1}$.
 
 ---
 
-### TEMPWAT_L1 — Seawater Temperature
+### TEMPWAT_L1 -- Seawater Temperature
 
 The raw seawater temperature (TEMPWAT_L0, $t_0$), is reported in either 
 counts or in L1 units ($^\circ$C), but scaled to an integer to compress the 
@@ -151,7 +151,7 @@ $\pm 0.002\ ^\circ$C.
 
 ---
 
-### PRESWAT_L1 — Seawater Pressure
+### PRESWAT_L1 -- Seawater Pressure
 
 The raw seawater pressure (PRESWAT_L0, $p_0$), is reported in either 
 counts, frequency or in scaled L1 units (dbar). The converted seawater 
@@ -159,7 +159,7 @@ pressure, PRESWAT_L1, is reported in dbar relative to one standard atmosphere
 (10.1325 dbar). As with temperature, conversions from L0 to L1 depend on the 
 instrument class and/or data delivery method.
 
-**SBE 16Plus — strain-gauge pressure sensor** (CTDBP except N/O, CTDPF-A/B):
+**SBE 16Plus -- strain-gauge pressure sensor** (CTDBP except N/O, CTDPF-A/B):
 
 $$t_v = $pt_0$ \div  13107$$
 
@@ -177,7 +177,7 @@ where $pt_0$ is the pressure sensor thermistor in counts, $\delta$ is an
 optional Druck sensor offset correction (default 0 dbar) and all 
 calibration coefficients are from factory calibration sheets.
 
-**SBE 16Plus — digiquartz pressure sensor** (CTDBP-N and CTDBP-O only):
+**SBE 16Plus -- digiquartz pressure sensor** (CTDBP-N and CTDBP-O only):
 
 $$p_f = p_0 \div  256$$
 
@@ -242,7 +242,7 @@ Output accuracy: SBE 16Plus V2 and SBE 37IM 0.1 % of full-scale range.
 
 ---
 
-### PRACSAL_L2 — Seawater Practical Salinity
+### PRACSAL_L2 -- Seawater Practical Salinity
 
 Seawater practical salinity is computed from L1 conductivity, temperature, and
 pressure using the TEOS-10 GSW library function `gsw.SP_from_C`, which
@@ -257,12 +257,12 @@ $$PS_{L2} =\text{gsw.SP_from_C}(C_{L1} * 10, T_{L1}, P_{L1})$$
 
 ---
 
-### DENSITY_L2 — In-situ Density
+### DENSITY_L2 -- In-situ Density
 
 In-situ seawater density is computed via a three-step chain using the TEOS-10
 GSW library:
 
-**Step 1 — Absolute Salinity:**
+**Step 1 -- Absolute Salinity:**
 
 $$S_A = \text{gsw.SA_from_SP}(PS_{L2}, P_{L1}, \text{lon}, \text{lat})$$
 
@@ -272,11 +272,11 @@ location and pressure. For moored instruments, latitude and longitude are the
 mooring position metadata; for gliders, they are the vehicle position at each
 sample.
 
-**Step 2 — Conservative Temperature:**
+**Step 2 -- Conservative Temperature:**
 
 $$\Theta = \text{gsw.CT_from_t}(S_A, T_{L1}, P_{L1})$$
 
-**Step 3 — In-situ density:**
+**Step 3 -- In-situ density:**
 
 $$\rho = \text{gsw.rho}(S_A, \Theta, p)$$
 
