@@ -140,13 +140,13 @@ generation. *Earth Planets Space*, 78, 127. <https://doi.org/10.1186/s40623-025-
 International Association of Geomagnetism and Aeronomy (2024). [IGRF-14.
 Zenodo.](https://doi.org/10.5281/zenodo.14012302)
 
-OOI (2012). [Data Product Specification for Velocity Profile and Echo
+OOI (2020). [Data Product Specification for Velocity Profile and Echo
 Intensity. Document Control Number
-1341-00750.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00750_Data_Product_SPEC_VELPROF_OOI.pdf)
+1341-00750.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00750_Data_Product_SPEC_VELPROF_ECHOINT_OOI.pdf)
 
 OOI (2013). [Data Product Specification for Turbulent Velocity Profile and
 Echo Intensity. Document Control Number
-1341-00760.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00760_Data_Product_SPEC_VELPROF_OOI.pdf)
+1341-00760.](https://oceanobservatories.org/wp-content/uploads/2023/09/1341-00760_Data_Product_SPEC_VELTURB_ECHOINT_OOI.pdf)
 
 Strom, K.M., and Reistad, H. (2024). [ppigrf: Python package for computing
 the International Geomagnetic Reference Field

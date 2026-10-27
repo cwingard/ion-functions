@@ -30,9 +30,10 @@ contribute changes, see [Contributing](CONTRIBUTING.md).
 The primary output of ION Functions is a set of standardized oceanographic
 data products (associated with individual variables within a data set), each 
 assigned a processing level that reflects how far the data has been transformed 
-from the raw instrument output. L0 is raw, L1 is a calibrated physical quantity 
-derived from a single sensor channel, and L2 is a derived scientific product 
-computed from two or more L1 or L2 inputs. See [Data Product Levels](data_products.md) for 
+from the raw instrument output. L0 is raw instrument output; L1 is computed from
+one instrument's L0 inputs, together with calibration coefficients and metadata, or is an
+instrument-computed value that has been rescaled or corrected; and L2 is a derived value computed
+with at least one L1 or L2 product as an input. See [Data Product Levels](data_products.md) for
 full definitions.
 
 ## Instrument families

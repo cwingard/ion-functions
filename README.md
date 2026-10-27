@@ -49,8 +49,8 @@ docs/            MkDocs documentation source
 | Level | Description | Example |
 |-------|-------------|---------|
 | L0 | Raw instrument output (counts, voltages, instrument-specific units) | Thermistor counts |
-| L1 | Calibrated physical quantity | Seawater temperature (&deg;C) |
-| L2 | Derived product computed from one or more L1 products | Practical salinity (PSS-78) |
+| L1 | Computed from L0 inputs from one instrument with calibration coefficients and metadata, or an instrument-computed value rescaled or corrected | Seawater temperature (&deg;C) |
+| L2 | Derived value computed from at least one L1 or L2 product | Practical salinity (PSS-78) |
 
 Algorithms come from the OOI Data Product Specifications (DPS), vendor documentation, and peer-reviewed literature.
 Where sources disagree, the implemented code is authoritative and the discrepancy is noted in the documentation.
