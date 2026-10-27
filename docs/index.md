@@ -66,3 +66,8 @@ defined family name noted in parentheses.
 | [WAV](api/wav_functions.md)         | WAVSS -- directional and non-directional wave statistics | WAVSTAT                                                                                  |
 | [Generic](api/generic_functions.md) | Shared utility functions | --                                                                                        |
 
+## Quality control
+
+Automated quality control tests (global and local range, spike, trend, stuck value, gradient, and combined
+flags) that are applied to the data products above are documented on the [Quality Control](api/qc_functions.md)
+page.
