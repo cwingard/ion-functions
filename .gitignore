@@ -1,11 +1,7 @@
 *pyc
 *.swp
-bin
-eggs
-develop-eggs
-ion_functions.egg-info
-parts
-.installed.cfg
+*.egg-info
+dist
 ion_functions/data/tmp/
 build
 *.egg
@@ -14,6 +10,7 @@ build
 !extensions/*.c
 extensions/test
 *.so
+*.pyd
 notebooks/
 .idea
 

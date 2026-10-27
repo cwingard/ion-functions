@@ -1,3 +1,15 @@
+# Release 2.6.0 (unreleased)
+
+Documentation refactor: NumPy-style docstrings for all modules and the MkDocs documentation site, including the new
+Quality Control page; module-level notes moved to the documentation.
+
+Packaging moved to pyproject.toml; the legacy buildout, bootstrap, and setup configuration was removed. The C
+extensions (QC functions and polycals) are now optional at install time.
+
+Removed the unused World Magnetic Model (WMM) C library and coefficient file; magnetic declination uses IGRF-14.
+
+License file replaced with the full Apache License 2.0 text.
+
 # Release 2.5.8 2026-10-19
 
 Issue #16336 - Fix new magnetic declination library affecting performance of data delivery.

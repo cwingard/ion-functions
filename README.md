@@ -19,11 +19,11 @@ git clone https://github.com/oceanobservatories/ion-functions.git
 cd ion-functions
 conda env create -f conda_env.yml
 conda activate ion
-pip install -e .
+pip install --no-build-isolation --no-deps -e .
 ```
 
-Dependencies are listed in `conda_env.yml`. Installing the package compiles two Cython extensions
-(`ion_functions/qc/qc_extensions.pyx` and `ion_functions/data/polycals.pyx`), so a C compiler is required.
+Dependencies are listed in `conda_env.yml` and `pyproject.toml`. A C compiler is optional; see the
+[installation guide](https://oceanobservatories.github.io/ion-functions/installation/) for details.
 
 ## Running the tests
 

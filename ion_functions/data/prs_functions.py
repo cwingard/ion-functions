@@ -6,7 +6,8 @@ Geomechanics LILY) and BOTSFLU (Seafloor Uplift and Subsidence).
 
 Authors: Russell Desiderio, Christopher Wingard
 """
-import pkg_resources
+from importlib import resources
+
 import numpy as np
 import scipy.io as spio
 from scipy import signal
@@ -268,8 +269,8 @@ def prs_botsflu_predtide(time):
         # else, OOI data from 2014 onwards
         matpath = 'data/prs_functions_tides_2014_thru_2019.mat'
 
-    matstream = pkg_resources.resource_stream('ion_functions', matpath)
-    dict_tides = spio.loadmat(matstream)
+    with resources.files('ion_functions').joinpath(matpath).open('rb') as matstream:
+        dict_tides = spio.loadmat(matstream)
     # tide values are signed 4 byte integers, units [0.001mm]
     tidevector = 0.000001 * dict_tides['tides_mat']
     tidevector = tidevector.reshape((-1))
